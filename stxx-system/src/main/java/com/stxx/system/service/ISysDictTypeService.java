@@ -1,15 +1,16 @@
 package com.stxx.system.service;
 
 import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.stxx.common.core.domain.entity.SysDictData;
 import com.stxx.common.core.domain.entity.SysDictType;
 
 /**
  * 字典 业务层
- * 
+ *
  * @author ruoyi
  */
-public interface ISysDictTypeService
+public interface ISysDictTypeService extends IService<SysDictType>
 {
     /**
      * 根据条件分页查询字典类型

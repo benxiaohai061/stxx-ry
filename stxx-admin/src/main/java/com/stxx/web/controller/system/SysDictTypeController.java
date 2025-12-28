@@ -2,6 +2,8 @@ package com.stxx.web.controller.system;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -24,15 +26,15 @@ import com.stxx.system.service.ISysDictTypeService;
 
 /**
  * 数据字典信息
- * 
+ *
  * @author ruoyi
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/system/dict/type")
 public class SysDictTypeController extends BaseController
 {
-    @Autowired
-    private ISysDictTypeService dictTypeService;
+    private final ISysDictTypeService dictTypeService;
 
     @PreAuthorize("@ss.hasPermi('system:dict:list')")
     @GetMapping("/list")
