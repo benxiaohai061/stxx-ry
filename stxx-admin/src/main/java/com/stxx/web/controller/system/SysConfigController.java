@@ -2,6 +2,8 @@ package com.stxx.web.controller.system;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -24,15 +26,16 @@ import com.stxx.system.service.ISysConfigService;
 
 /**
  * 参数配置 信息操作处理
- * 
+ *
  * @author ruoyi
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/system/config")
 public class SysConfigController extends BaseController
 {
-    @Autowired
-    private ISysConfigService configService;
+
+    private final ISysConfigService configService;
 
     /**
      * 获取参数配置列表
