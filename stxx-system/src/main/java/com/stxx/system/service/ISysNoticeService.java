@@ -7,7 +7,7 @@ import com.stxx.system.domain.SysNotice;
 /**
  * 公告 服务层
  *
- * @author ruoyi
+ * @author wangcc
  */
 public interface ISysNoticeService extends IService<SysNotice>
 {

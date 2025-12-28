@@ -3,7 +3,7 @@ package com.stxx.common.constant;
 /**
  * 缓存的key 常量
  * 
- * @author ruoyi
+ * @author wangcc
  */
 public class CacheConstants
 {

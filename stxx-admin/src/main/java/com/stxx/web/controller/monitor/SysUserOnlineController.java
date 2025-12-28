@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,18 +27,17 @@ import com.stxx.system.service.ISysUserOnlineService;
 
 /**
  * 在线用户监控
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/monitor/online")
 public class SysUserOnlineController extends BaseController
 {
-    @Autowired
-    private ISysUserOnlineService userOnlineService;
+    private final ISysUserOnlineService userOnlineService;
 
-    @Autowired
-    private RedisCache redisCache;
+    private final RedisCache redisCache;
 
     @PreAuthorize("@ss.hasPermi('monitor:online:list')")
     @GetMapping("/list")

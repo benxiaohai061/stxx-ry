@@ -1,7 +1,10 @@
 package com.stxx.web.controller.monitor;
 
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,15 +24,15 @@ import com.stxx.system.service.ISysOperLogService;
 
 /**
  * 操作日志记录
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/monitor/operlog")
 public class SysOperlogController extends BaseController
 {
-    @Autowired
-    private ISysOperLogService operLogService;
+    private final ISysOperLogService operLogService;
 
     @PreAuthorize("@ss.hasPermi('monitor:operlog:list')")
     @GetMapping("/list")
@@ -55,7 +58,7 @@ public class SysOperlogController extends BaseController
     @DeleteMapping("/{operIds}")
     public AjaxResult remove(@PathVariable Long[] operIds)
     {
-        return toAjax(operLogService.deleteOperLogByIds(operIds));
+        return toAjax(operLogService.removeBatchByIds(Arrays.asList(operIds)));
     }
 
     @Log(title = "操作日志", businessType = BusinessType.CLEAN)

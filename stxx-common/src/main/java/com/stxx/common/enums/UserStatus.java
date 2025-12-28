@@ -3,7 +3,7 @@ package com.stxx.common.enums;
 /**
  * 用户状态
  * 
- * @author ruoyi
+ * @author wangcc
  */
 public enum UserStatus
 {

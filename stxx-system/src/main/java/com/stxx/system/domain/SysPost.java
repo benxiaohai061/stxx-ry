@@ -18,7 +18,7 @@ import com.stxx.common.core.domain.BaseEntity;
 /**
  * 岗位表 sys_post
  *
- * @author ruoyi
+ * @author wangcc
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -51,7 +51,7 @@ public class SysPost extends BaseEntity
     /** 用户是否存在此岗位标识 默认不存在 */
     @TableField(exist = false)
     private boolean flag = false;
-    
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

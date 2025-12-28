@@ -1,7 +1,10 @@
 package com.stxx.web.controller.monitor;
 
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,18 +25,18 @@ import com.stxx.system.service.ISysLogininforService;
 
 /**
  * 系统访问记录
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/monitor/logininfor")
 public class SysLogininforController extends BaseController
 {
-    @Autowired
-    private ISysLogininforService logininforService;
 
-    @Autowired
-    private SysPasswordService passwordService;
+    private final ISysLogininforService logininforService;
+
+    private final SysPasswordService passwordService;
 
     @PreAuthorize("@ss.hasPermi('monitor:logininfor:list')")
     @GetMapping("/list")
@@ -59,7 +62,7 @@ public class SysLogininforController extends BaseController
     @DeleteMapping("/{infoIds}")
     public AjaxResult remove(@PathVariable Long[] infoIds)
     {
-        return toAjax(logininforService.deleteLogininforByIds(infoIds));
+        return toAjax(logininforService.removeBatchByIds(Arrays.asList(infoIds)));
     }
 
     @PreAuthorize("@ss.hasPermi('monitor:logininfor:remove')")

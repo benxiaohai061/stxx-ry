@@ -25,8 +25,8 @@ import org.springframework.http.MediaType;
 
 /**
  * 通用http发送方法
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class HttpUtils
 {
@@ -132,7 +132,7 @@ public class HttpUtils
 
     /**
      * 向指定 URL 发送POST方法的请求
-     * 
+     *
      * @param url 发送请求的 URL
      * @param param 请求参数
      * @param contentType 内容类型

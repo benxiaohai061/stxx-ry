@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 参数配置 服务层
  *
- * @author ruoyi
+ * @author wangcc
  */
 public interface ISysConfigService extends IService<SysConfig>
 {

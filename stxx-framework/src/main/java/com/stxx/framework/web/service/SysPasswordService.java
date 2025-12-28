@@ -1,7 +1,7 @@
 package com.stxx.framework.web.service;
 
 import java.util.concurrent.TimeUnit;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -15,14 +15,14 @@ import com.stxx.framework.security.context.AuthenticationContextHolder;
 
 /**
  * 登录密码方法
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @Component
 public class SysPasswordService
 {
-    @Autowired
-    private RedisCache redisCache;
+    private final RedisCache redisCache;
 
     @Value(value = "${user.password.maxRetryCount}")
     private int maxRetryCount;

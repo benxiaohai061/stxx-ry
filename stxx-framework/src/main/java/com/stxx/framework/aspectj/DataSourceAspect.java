@@ -18,7 +18,7 @@ import com.stxx.framework.datasource.DynamicDataSourceContextHolder;
 /**
  * 多数据源处理
  * 
- * @author ruoyi
+ * @author wangcc
  */
 @Aspect
 @Order(1)

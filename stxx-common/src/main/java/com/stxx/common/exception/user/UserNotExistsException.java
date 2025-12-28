@@ -2,8 +2,8 @@ package com.stxx.common.exception.user;
 
 /**
  * 用户不存在异常类
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class UserNotExistsException extends UserException
 {

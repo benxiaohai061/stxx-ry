@@ -29,18 +29,16 @@ import com.stxx.system.service.ISysRoleService;
 /**
  * 角色 业务层处理
  *
- * @author ruoyi
+ * @author wangcc
  */
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
 
-    private final SysRoleMapper roleMapper;
     private final SysRoleMenuMapper roleMenuMapper;
     private final SysUserRoleMapper userRoleMapper;
     private final SysRoleDeptMapper roleDeptMapper;
 
-    public SysRoleServiceImpl(SysRoleMapper roleMapper, SysRoleMenuMapper roleMenuMapper, SysUserRoleMapper userRoleMapper, SysRoleDeptMapper roleDeptMapper) {
-        this.roleMapper = roleMapper;
+    public SysRoleServiceImpl(SysRoleMenuMapper roleMenuMapper, SysUserRoleMapper userRoleMapper, SysRoleDeptMapper roleDeptMapper) {
         this.roleMenuMapper = roleMenuMapper;
         this.userRoleMapper = userRoleMapper;
         this.roleDeptMapper = roleDeptMapper;
@@ -67,7 +65,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public List<SysRole> selectRolesByUserId(Long userId)
     {
-        List<SysRole> userRoles = roleMapper.selectRolePermissionByUserId(userId);
+        List<SysRole> userRoles = baseMapper.selectRolePermissionByUserId(userId);
         List<SysRole> roles = selectRoleAll();
         for (SysRole role : roles)
         {
@@ -92,7 +90,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public Set<String> selectRolePermissionByUserId(Long userId)
     {
-        List<SysRole> perms = roleMapper.selectRolePermissionByUserId(userId);
+        List<SysRole> perms = baseMapper.selectRolePermissionByUserId(userId);
         Set<String> permsSet = new HashSet<>();
         for (SysRole perm : perms)
         {
@@ -124,7 +122,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public List<Long> selectRoleListByUserId(Long userId)
     {
-        return roleMapper.selectRoleListByUserId(userId);
+        return baseMapper.selectRoleListByUserId(userId);
     }
 
     /**
@@ -224,7 +222,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public int countUserRoleByRoleId(Long roleId)
     {
-        return userRoleMapper.countUserRoleByRoleId(roleId);
+        QueryWrapper<SysUserRole> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role_id", roleId);
+        Long count = userRoleMapper.selectCount(queryWrapper);
+        return Integer.parseInt(count.toString());
     }
 
     /**
@@ -255,7 +256,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         // 修改角色信息
         this.updateById(role);
         // 删除角色与菜单关联
-        roleMenuMapper.deleteRoleMenuByRoleId(role.getRoleId());
+        QueryWrapper<SysRoleMenu> menuQueryWrapper = new QueryWrapper<>();
+        menuQueryWrapper.eq("role_id", role.getRoleId());
+        roleMenuMapper.delete(menuQueryWrapper);
         return insertRoleMenu(role);
     }
 
@@ -284,7 +287,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         // 修改角色信息
         this.updateById(role);
         // 删除角色与部门关联
-        roleDeptMapper.deleteRoleDeptByRoleId(role.getRoleId());
+        QueryWrapper<SysRoleDept> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role_id", role.getRoleId());
+        roleDeptMapper.delete(queryWrapper);
         // 新增角色和部门信息（数据权限）
         return insertRoleDept(role);
     }
@@ -330,9 +335,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             rd.setDeptId(deptId);
             list.add(rd);
         }
-        if (list.size() > 0)
+        if (!list.isEmpty())
         {
-            rows = roleDeptMapper.batchRoleDept(list);
+            rows = roleDeptMapper.batchRoleDept(list);;
         }
         return rows;
     }
@@ -348,9 +353,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public int deleteRoleById(Long roleId)
     {
         // 删除角色与菜单关联
-        roleMenuMapper.deleteRoleMenuByRoleId(roleId);
+        QueryWrapper<SysRoleMenu> menuQueryWrapper = new QueryWrapper<>();
+        menuQueryWrapper.eq("role_id", roleId);
+        roleMenuMapper.delete(menuQueryWrapper);
         // 删除角色与部门关联
-        roleDeptMapper.deleteRoleDeptByRoleId(roleId);
+        QueryWrapper<SysRoleDept> deptQueryWrapper = new QueryWrapper<>();
+        deptQueryWrapper.eq("role_id", roleId);
+        roleDeptMapper.delete(deptQueryWrapper);
         return this.removeById(roleId) ? 1 : 0;
     }
 
@@ -375,10 +384,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             }
         }
         // 删除角色与菜单关联
-        roleMenuMapper.deleteRoleMenu(roleIds);
+        QueryWrapper<SysRoleMenu> menuQueryWrapper = new QueryWrapper<>();
+        menuQueryWrapper.in("role_id", Arrays.asList(roleIds));
+        roleMenuMapper.delete(menuQueryWrapper);
         // 删除角色与部门关联
-        roleDeptMapper.deleteRoleDept(roleIds);
-        return this.removeByIds(java.util.Arrays.asList(roleIds)) ? 1 : 0;
+        QueryWrapper<SysRoleDept> deptQueryWrapper = new QueryWrapper<>();
+        deptQueryWrapper.in("role_id", Arrays.asList(roleIds));
+        roleDeptMapper.delete(deptQueryWrapper);
+        return this.removeByIds(Arrays.asList(roleIds)) ? 1 : 0;
     }
 
     /**
@@ -390,7 +403,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public int deleteAuthUser(SysUserRole userRole)
     {
-        return userRoleMapper.deleteUserRoleInfo(userRole);
+        QueryWrapper<SysUserRole> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userRole.getUserId())
+                   .eq("role_id", userRole.getRoleId());
+        return userRoleMapper.delete(queryWrapper);
     }
 
     /**
@@ -403,7 +419,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public int deleteAuthUsers(Long roleId, Long[] userIds)
     {
-        return userRoleMapper.deleteUserRoleInfos(roleId, userIds);
+        QueryWrapper<SysUserRole> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role_id", roleId)
+                   .in("user_id", Arrays.asList(userIds));
+        return userRoleMapper.delete(queryWrapper);
     }
 
     /**

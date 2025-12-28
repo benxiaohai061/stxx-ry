@@ -2,7 +2,7 @@ package com.stxx.web.core.config;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,15 +24,15 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  * Swagger2的接口配置
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @Configuration
 public class SwaggerConfig
 {
     /** 系统基础配置 */
-    @Autowired
-    private RuoYiConfig ruoyiConfig;
+    private final RuoYiConfig ruoyiConfig;
 
     /** 是否开启swagger */
     @Value("${swagger.enabled}")

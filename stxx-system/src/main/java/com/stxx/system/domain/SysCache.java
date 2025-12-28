@@ -4,8 +4,8 @@ import com.stxx.common.utils.StringUtils;
 
 /**
  * 缓存信息
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class SysCache
 {

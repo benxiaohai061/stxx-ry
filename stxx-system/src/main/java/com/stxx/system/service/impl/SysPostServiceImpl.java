@@ -1,21 +1,26 @@
 package com.stxx.system.service.impl;
 
-import java.util.List;
-import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stxx.common.constant.UserConstants;
 import com.stxx.common.exception.ServiceException;
 import com.stxx.common.utils.StringUtils;
 import com.stxx.system.domain.SysPost;
+import com.stxx.system.domain.SysUserPost;
 import com.stxx.system.mapper.SysPostMapper;
 import com.stxx.system.mapper.SysUserPostMapper;
 import com.stxx.system.service.ISysPostService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 岗位信息 服务层处理
  *
- * @author ruoyi
+ * @author wangcc
  */
 @Service
 public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> implements ISysPostService {
@@ -41,26 +46,6 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
         return this.list(queryWrapper);
     }
 
-    /**
-     * 查询所有岗位
-     *
-     * @return 岗位列表
-     */
-    @Override
-    public List<SysPost> selectPostAll() {
-        return this.list();
-    }
-
-    /**
-     * 通过岗位ID查询岗位信息
-     *
-     * @param postId 岗位ID
-     * @return 角色对象信息
-     */
-    @Override
-    public SysPost selectPostById(Long postId) {
-        return this.getById(postId);
-    }
 
     /**
      * 根据用户ID获取岗位选择框列表
@@ -70,7 +55,9 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
      */
     @Override
     public List<Long> selectPostListByUserId(Long userId) {
-        return baseMapper.selectPostListByUserId(userId);
+        QueryWrapper<SysUserPost> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        return userPostMapper.selectList(queryWrapper).stream().map(SysUserPost::getPostId).distinct().collect(Collectors.toList());
     }
 
     /**
@@ -111,25 +98,17 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 
     /**
      * 通过岗位ID查询岗位使用数量
-     * 
+     *
      * @param postId 岗位ID
      * @return 结果
      */
     @Override
     public int countUserPostById(Long postId)
     {
-        return userPostMapper.countUserPostById(postId);
-    }
-
-    /**
-     * 删除岗位信息
-     *
-     * @param postId 岗位ID
-     * @return 结果
-     */
-    @Override
-    public int deletePostById(Long postId) {
-        return this.removeById(postId) ? 1 : 0;
+        QueryWrapper<SysUserPost> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("post_id", postId);
+        Long count = userPostMapper.selectCount(queryWrapper);
+        return Integer.parseInt(count.toString());
     }
 
     /**
@@ -138,6 +117,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
      * @param postIds 需要删除的岗位ID
      * @return 结果
      */
+    @Transactional
     @Override
     public int deletePostByIds(Long[] postIds) {
         for (Long postId : postIds) {
@@ -146,28 +126,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
                 throw new ServiceException(String.format("%1$s已分配,不能删除", post.getPostName()));
             }
         }
-        return this.removeByIds(java.util.Arrays.asList(postIds)) ? 1 : 0;
+        return this.removeByIds(Arrays.asList(postIds)) ? 1 : 0;
     }
 
-    /**
-     * 新增保存岗位信息
-     *
-     * @param post 岗位信息
-     * @return 结果
-     */
-    @Override
-    public int insertPost(SysPost post) {
-        return this.save(post) ? 1 : 0;
-    }
-
-    /**
-     * 修改保存岗位信息
-     *
-     * @param post 岗位信息
-     * @return 结果
-     */
-    @Override
-    public int updatePost(SysPost post) {
-        return this.updateById(post) ? 1 : 0;
-    }
 }

@@ -9,6 +9,7 @@ import com.stxx.common.core.redis.RedisCache;
 import com.stxx.common.core.text.Convert;
 import com.stxx.common.enums.DataSourceType;
 import com.stxx.common.exception.ServiceException;
+import com.stxx.common.utils.QueryWrapperUtils;
 import com.stxx.common.utils.StringUtils;
 import com.stxx.system.domain.SysConfig;
 import com.stxx.system.mapper.SysConfigMapper;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * 参数配置 服务层实现
  *
- * @author ruoyi
+ * @author wangcc
  */
 @RequiredArgsConstructor
 @Service
@@ -116,14 +117,8 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
             queryWrapper.like("config_key", config.getConfigKey());
         }
         // 时间范围查询
-        if (config.getParams() != null) {
-            if (config.getParams().get("beginTime") != null) {
-                queryWrapper.ge("create_time", config.getParams().get("beginTime"));
-            }
-            if (config.getParams().get("endTime") != null) {
-                queryWrapper.le("create_time", config.getParams().get("endTime"));
-            }
-        }
+        QueryWrapperUtils.between(queryWrapper,"create_time",config.getParams());
+
         return baseMapper.selectList(queryWrapper);
     }
 

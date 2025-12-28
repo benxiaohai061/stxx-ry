@@ -1,7 +1,7 @@
 package com.stxx.framework.config;
 
 import java.util.concurrent.TimeUnit;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
@@ -17,14 +17,14 @@ import com.stxx.framework.interceptor.RepeatSubmitInterceptor;
 
 /**
  * 通用配置
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @Configuration
 public class ResourcesConfig implements WebMvcConfigurer
 {
-    @Autowired
-    private RepeatSubmitInterceptor repeatSubmitInterceptor;
+    private final RepeatSubmitInterceptor repeatSubmitInterceptor;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)

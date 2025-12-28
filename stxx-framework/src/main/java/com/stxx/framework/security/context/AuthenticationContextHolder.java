@@ -4,8 +4,8 @@ import org.springframework.security.core.Authentication;
 
 /**
  * 身份验证信息
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class AuthenticationContextHolder
 {

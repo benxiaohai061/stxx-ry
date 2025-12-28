@@ -6,8 +6,8 @@ import com.stxx.common.core.text.Convert;
 
 /**
  * 权限信息
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class PermissionContextHolder
 {

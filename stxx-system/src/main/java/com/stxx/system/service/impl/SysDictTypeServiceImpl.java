@@ -7,6 +7,7 @@ import com.stxx.common.core.domain.entity.SysDictData;
 import com.stxx.common.core.domain.entity.SysDictType;
 import com.stxx.common.exception.ServiceException;
 import com.stxx.common.utils.DictUtils;
+import com.stxx.common.utils.QueryWrapperUtils;
 import com.stxx.common.utils.StringUtils;
 import com.stxx.system.mapper.SysDictTypeMapper;
 import com.stxx.system.service.ISysDictDataService;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * 字典 业务层处理
  *
- * @author ruoyi
+ * @author wangcc
  */
 @RequiredArgsConstructor
 @Service
@@ -52,14 +53,8 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         queryWrapper.like(StringUtils.isNotEmpty(dictType.getDictName()), "dict_name", dictType.getDictName())
                     .eq(StringUtils.isNotEmpty(dictType.getStatus()), "status", dictType.getStatus())
                     .like(StringUtils.isNotEmpty(dictType.getDictType()), "dict_type", dictType.getDictType());
-
         // 时间范围查询
-        if (dictType.getParams() != null) {
-            Object beginTime = dictType.getParams().get("beginTime");
-            Object endTime = dictType.getParams().get("endTime");
-            queryWrapper.ge(beginTime != null && StringUtils.isNotEmpty(beginTime.toString()), "create_time", beginTime)
-                        .le(endTime != null && StringUtils.isNotEmpty(endTime.toString()), "create_time", endTime);
-        }
+        QueryWrapperUtils.between(queryWrapper,"create_time",dictType.getParams());
 
         return this.list(queryWrapper);
     }
@@ -122,6 +117,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      *
      * @param dictIds 需要删除的字典ID
      */
+    @Transactional
     @Override
     public void deleteDictTypeByIds(Long[] dictIds) {
         // 预检查：确保没有字典数据在使用这些字典类型

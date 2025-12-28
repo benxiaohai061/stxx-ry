@@ -6,8 +6,8 @@ import com.stxx.common.constant.Constants;
 
 /**
  * VelocityEngine工厂
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class VelocityInitializer
 {

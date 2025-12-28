@@ -1,5 +1,6 @@
 package com.stxx.framework.manager.factory;
 
+import java.util.Date;
 import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,8 @@ import com.stxx.system.service.ISysOperLogService;
 
 /**
  * 异步工厂（产生任务用）
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class AsyncFactory
 {
@@ -27,7 +28,7 @@ public class AsyncFactory
 
     /**
      * 记录登录信息
-     * 
+     *
      * @param username 用户名
      * @param status 状态
      * @param message 消息
@@ -65,6 +66,7 @@ public class AsyncFactory
                 logininfor.setBrowser(browser);
                 logininfor.setOs(os);
                 logininfor.setMsg(message);
+                logininfor.setLoginTime(new Date());
                 // 日志状态
                 if (StringUtils.equalsAny(status, Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER))
                 {
@@ -75,14 +77,14 @@ public class AsyncFactory
                     logininfor.setStatus(Constants.FAIL);
                 }
                 // 插入数据
-                SpringUtils.getBean(ISysLogininforService.class).insertLogininfor(logininfor);
+                SpringUtils.getBean(ISysLogininforService.class).save(logininfor);
             }
         };
     }
 
     /**
      * 操作日志记录
-     * 
+     *
      * @param operLog 操作日志信息
      * @return 任务task
      */
@@ -95,7 +97,7 @@ public class AsyncFactory
             {
                 // 远程查询操作地点
                 operLog.setOperLocation(AddressUtils.getRealAddressByIP(operLog.getOperIp()));
-                SpringUtils.getBean(ISysOperLogService.class).insertOperlog(operLog);
+                SpringUtils.getBean(ISysOperLogService.class).save(operLog);
             }
         };
     }

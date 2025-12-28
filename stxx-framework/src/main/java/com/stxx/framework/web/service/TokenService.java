@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import com.stxx.common.constant.CacheConstants;
@@ -25,9 +25,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
  * token验证处理
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @Component
 public class TokenService
 {
@@ -51,8 +52,7 @@ public class TokenService
 
     private static final Long MILLIS_MINUTE_TWENTY = 20 * 60 * 1000L;
 
-    @Autowired
-    private RedisCache redisCache;
+    private final RedisCache redisCache;
 
     /**
      * 获取用户身份信息

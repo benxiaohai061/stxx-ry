@@ -17,7 +17,7 @@ import com.stxx.common.core.domain.BaseEntity;
 /**
  * 字典数据表 sys_dict_data
  *
- * @author ruoyi
+ * @author wangcc
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -72,7 +72,7 @@ public class SysDictData extends BaseEntity
     {
         return UserConstants.YES.equals(this.isDefault);
     }
-    
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

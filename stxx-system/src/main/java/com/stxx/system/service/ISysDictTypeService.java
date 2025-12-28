@@ -8,7 +8,7 @@ import com.stxx.common.core.domain.entity.SysDictType;
 /**
  * 字典 业务层
  *
- * @author ruoyi
+ * @author wangcc
  */
 public interface ISysDictTypeService extends IService<SysDictType>
 {

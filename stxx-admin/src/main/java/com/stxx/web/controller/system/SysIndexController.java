@@ -1,6 +1,6 @@
 package com.stxx.web.controller.system;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.stxx.common.config.RuoYiConfig;
@@ -9,14 +9,14 @@ import com.stxx.common.utils.StringUtils;
 /**
  * 首页
  *
- * @author ruoyi
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @RestController
 public class SysIndexController
 {
     /** 系统基础配置 */
-    @Autowired
-    private RuoYiConfig ruoyiConfig;
+    private final RuoYiConfig ruoyiConfig;
 
     /**
      * 访问首页，提示语

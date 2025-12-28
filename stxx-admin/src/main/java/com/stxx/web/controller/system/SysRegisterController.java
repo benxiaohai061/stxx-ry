@@ -1,6 +1,6 @@
 package com.stxx.web.controller.system;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,17 +13,16 @@ import com.stxx.system.service.ISysConfigService;
 
 /**
  * 注册验证
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @RestController
 public class SysRegisterController extends BaseController
 {
-    @Autowired
-    private SysRegisterService registerService;
+    private final SysRegisterService registerService;
 
-    @Autowired
-    private ISysConfigService configService;
+    private final ISysConfigService configService;
 
     @PostMapping("/register")
     public AjaxResult register(@RequestBody RegisterBody user)

@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stxx.system.mapper.SysRoleMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.stxx.common.constant.Constants;
 import com.stxx.common.constant.UserConstants;
@@ -21,22 +22,21 @@ import com.stxx.common.core.domain.entity.SysRole;
 import com.stxx.common.core.domain.entity.SysUser;
 import com.stxx.common.utils.SecurityUtils;
 import com.stxx.common.utils.StringUtils;
-import com.stxx.common.utils.spring.SpringUtils;
 import com.stxx.system.domain.vo.MetaVo;
 import com.stxx.system.domain.vo.RouterVo;
 import com.stxx.system.mapper.SysMenuMapper;
+import com.stxx.system.domain.SysRoleMenu;
 import com.stxx.system.mapper.SysRoleMenuMapper;
 import com.stxx.system.service.ISysMenuService;
-import com.stxx.system.service.ISysRoleService;
 
 /**
  * 菜单 业务层处理
  *
- * @author ruoyi
+ * @author wangcc
  */
 @RequiredArgsConstructor
 @Service
-public class SysMenuServiceImpl implements ISysMenuService
+public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService
 {
     public static final String PREMISSION_STRING = "perms[\"{0}\"]";
 
@@ -71,7 +71,23 @@ public class SysMenuServiceImpl implements ISysMenuService
         // 管理员显示所有菜单信息
         if (SysUser.isAdmin(userId))
         {
-            menuList = menuMapper.selectMenuList(menu);
+            QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+
+            // 动态条件查询
+            if (StringUtils.isNotEmpty(menu.getMenuName())) {
+                queryWrapper.like("menu_name", menu.getMenuName());
+            }
+            if (StringUtils.isNotEmpty(menu.getVisible())) {
+                queryWrapper.eq("visible", menu.getVisible());
+            }
+            if (StringUtils.isNotEmpty(menu.getStatus())) {
+                queryWrapper.eq("status", menu.getStatus());
+            }
+
+            // 排序
+            queryWrapper.orderByAsc("parent_id", "order_num");
+
+            menuList = this.list(queryWrapper);
         }
         else
         {
@@ -265,7 +281,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     @Override
     public SysMenu selectMenuById(Long menuId)
     {
-        return menuMapper.selectMenuById(menuId);
+        return this.getById(menuId);
     }
 
     /**
@@ -277,8 +293,9 @@ public class SysMenuServiceImpl implements ISysMenuService
     @Override
     public boolean hasChildByMenuId(Long menuId)
     {
-        int result = menuMapper.hasChildByMenuId(menuId);
-        return result > 0;
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("parent_id", menuId);
+        return this.count(queryWrapper) > 0;
     }
 
     /**
@@ -290,8 +307,9 @@ public class SysMenuServiceImpl implements ISysMenuService
     @Override
     public boolean checkMenuExistRole(Long menuId)
     {
-        int result = roleMenuMapper.checkMenuExistRole(menuId);
-        return result > 0;
+        QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("menu_id", menuId);
+        return roleMenuMapper.selectCount(queryWrapper) > 0;
     }
 
     /**
@@ -303,7 +321,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     @Override
     public int insertMenu(SysMenu menu)
     {
-        return menuMapper.insertMenu(menu);
+        return this.save(menu) ? 1 : 0;
     }
 
     /**
@@ -315,7 +333,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     @Override
     public int updateMenu(SysMenu menu)
     {
-        return menuMapper.updateMenu(menu);
+        return this.updateById(menu) ? 1 : 0;
     }
 
     /**
@@ -327,7 +345,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     @Override
     public int deleteMenuById(Long menuId)
     {
-        return menuMapper.deleteMenuById(menuId);
+        return this.removeById(menuId) ? 1 : 0;
     }
 
     /**
@@ -340,7 +358,11 @@ public class SysMenuServiceImpl implements ISysMenuService
     public boolean checkMenuNameUnique(SysMenu menu)
     {
         Long menuId = StringUtils.isNull(menu.getMenuId()) ? -1L : menu.getMenuId();
-        SysMenu info = menuMapper.checkMenuNameUnique(menu.getMenuName(), menu.getParentId());
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("menu_name", menu.getMenuName())
+                   .eq("parent_id", menu.getParentId())
+                   .last("limit 1");
+        SysMenu info = this.getOne(queryWrapper);
         if (StringUtils.isNotNull(info) && info.getMenuId().longValue() != menuId.longValue())
         {
             return UserConstants.NOT_UNIQUE;

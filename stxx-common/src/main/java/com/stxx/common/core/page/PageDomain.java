@@ -4,8 +4,8 @@ import com.stxx.common.utils.StringUtils;
 
 /**
  * 分页数据
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class PageDomain
 {

@@ -1,7 +1,7 @@
 package com.stxx.framework.web.service;
 
 import javax.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,30 +30,27 @@ import com.stxx.system.service.ISysUserService;
 
 /**
  * 登录校验方法
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @Component
 public class SysLoginService
 {
-    @Autowired
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
     @Resource
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private RedisCache redisCache;
-    
-    @Autowired
-    private ISysUserService userService;
+    private final RedisCache redisCache;
 
-    @Autowired
-    private ISysConfigService configService;
+    private final ISysUserService userService;
+
+    private final ISysConfigService configService;
 
     /**
      * 登录验证
-     * 
+     *
      * @param username 用户名
      * @param password 密码
      * @param code 验证码
@@ -101,7 +98,7 @@ public class SysLoginService
 
     /**
      * 校验验证码
-     * 
+     *
      * @param username 用户名
      * @param code 验证码
      * @param uuid 唯一标识

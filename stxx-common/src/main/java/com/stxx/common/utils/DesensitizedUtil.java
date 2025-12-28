@@ -3,7 +3,7 @@ package com.stxx.common.utils;
 /**
  * 脱敏工具类
  *
- * @author ruoyi
+ * @author wangcc
  */
 public class DesensitizedUtil
 {

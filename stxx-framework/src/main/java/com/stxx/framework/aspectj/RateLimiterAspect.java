@@ -3,13 +3,13 @@ package com.stxx.framework.aspectj;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
@@ -22,29 +22,18 @@ import com.stxx.common.utils.ip.IpUtils;
 /**
  * 限流处理
  *
- * @author ruoyi
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @Aspect
 @Component
 public class RateLimiterAspect
 {
     private static final Logger log = LoggerFactory.getLogger(RateLimiterAspect.class);
 
-    private RedisTemplate<Object, Object> redisTemplate;
+    private final RedisTemplate<Object, Object> redisTemplate;
 
-    private RedisScript<Long> limitScript;
-
-    @Autowired
-    public void setRedisTemplate1(RedisTemplate<Object, Object> redisTemplate)
-    {
-        this.redisTemplate = redisTemplate;
-    }
-
-    @Autowired
-    public void setLimitScript(RedisScript<Long> limitScript)
-    {
-        this.limitScript = limitScript;
-    }
+    private final RedisScript<Long> limitScript;
 
     @Before("@annotation(rateLimiter)")
     public void doBefore(JoinPoint point, RateLimiter rateLimiter) throws Throwable

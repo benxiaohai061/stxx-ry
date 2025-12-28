@@ -3,7 +3,7 @@ package com.stxx.web.controller.system;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,30 +26,26 @@ import com.stxx.system.service.ISysMenuService;
 
 /**
  * 登录验证
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @RestController
 public class SysLoginController
 {
-    @Autowired
-    private SysLoginService loginService;
+    private final SysLoginService loginService;
 
-    @Autowired
-    private ISysMenuService menuService;
+    private final ISysMenuService menuService;
 
-    @Autowired
-    private SysPermissionService permissionService;
+    private final SysPermissionService permissionService;
 
-    @Autowired
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
-    @Autowired
-    private ISysConfigService configService;
+    private final ISysConfigService configService;
 
     /**
      * 登录方法
-     * 
+     *
      * @param loginBody 登录信息
      * @return 结果
      */
@@ -66,7 +62,7 @@ public class SysLoginController
 
     /**
      * 获取用户信息
-     * 
+     *
      * @return 用户信息
      */
     @GetMapping("getInfo")
@@ -94,7 +90,7 @@ public class SysLoginController
 
     /**
      * 获取路由信息
-     * 
+     *
      * @return 路由信息
      */
     @GetMapping("getRouters")
@@ -104,7 +100,7 @@ public class SysLoginController
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
         return AjaxResult.success(menuService.buildMenus(menus));
     }
-    
+
     // 检查初始密码是否提醒修改
     public boolean initPasswordIsModify(Date pwdUpdateDate)
     {

@@ -4,8 +4,8 @@ import com.stxx.common.utils.StringUtils;
 
 /**
  * 路由显示信息
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class MetaVo
 {

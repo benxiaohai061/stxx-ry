@@ -3,7 +3,7 @@ package com.stxx.common.utils.uuid;
 /**
  * ID生成器工具类
  * 
- * @author ruoyi
+ * @author wangcc
  */
 public class IdUtils
 {

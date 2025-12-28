@@ -21,8 +21,8 @@ import com.stxx.common.utils.html.EscapeUtil;
 
 /**
  * 全局异常处理器
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler

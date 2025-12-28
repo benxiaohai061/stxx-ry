@@ -3,8 +3,8 @@ package com.stxx.web.controller.system;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,24 +34,21 @@ import com.stxx.system.service.ISysUserService;
 
 /**
  * 用户信息
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/system/user")
 public class SysUserController extends BaseController
 {
-    @Autowired
-    private ISysUserService userService;
+    private final ISysUserService userService;
 
-    @Autowired
-    private ISysRoleService roleService;
+    private final ISysRoleService roleService;
 
-    @Autowired
-    private ISysDeptService deptService;
+    private final ISysDeptService deptService;
 
-    @Autowired
-    private ISysPostService postService;
+    private final ISysPostService postService;
 
     /**
      * 获取用户列表
@@ -112,7 +109,7 @@ public class SysUserController extends BaseController
         }
         List<SysRole> roles = roleService.selectRoleAll();
         ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
-        ajax.put("posts", postService.selectPostAll());
+        ajax.put("posts", postService.list());
         return ajax;
     }
 

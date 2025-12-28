@@ -2,8 +2,8 @@ package com.stxx.common.enums;
 
 /**
  * 操作人类别
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public enum OperatorType
 {

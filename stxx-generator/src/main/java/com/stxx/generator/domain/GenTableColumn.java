@@ -1,19 +1,28 @@
 package com.stxx.generator.domain;
 
 import javax.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.stxx.common.core.domain.BaseEntity;
 import com.stxx.common.utils.StringUtils;
 
 /**
  * 代码生成业务字段表 gen_table_column
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@TableName("gen_table_column")
 public class GenTableColumn extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 编号 */
+    @TableId(type = IdType.AUTO)
     private Long columnId;
 
     /** 归属表编号 */

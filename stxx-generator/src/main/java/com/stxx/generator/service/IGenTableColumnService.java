@@ -1,14 +1,15 @@
 package com.stxx.generator.service;
 
 import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.stxx.generator.domain.GenTableColumn;
 
 /**
  * 业务字段 服务层
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
-public interface IGenTableColumnService
+public interface IGenTableColumnService extends IService<GenTableColumn>
 {
     /**
      * 查询业务字段列表
@@ -36,9 +37,17 @@ public interface IGenTableColumnService
 
     /**
      * 删除业务字段信息
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
     public int deleteGenTableColumnByIds(String ids);
+
+    /**
+     * 删除业务字段对象
+     *
+     * @param genTableColumns 业务字段集合
+     * @return 结果
+     */
+    public int deleteGenTableColumns(List<GenTableColumn> genTableColumns);
 }

@@ -1,68 +1,62 @@
 package com.stxx.system.service.impl;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.stxx.common.utils.QueryWrapperUtils;
+import com.stxx.common.utils.StringUtils;
 import com.stxx.system.domain.SysOperLog;
 import com.stxx.system.mapper.SysOperLogMapper;
 import com.stxx.system.service.ISysOperLogService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 操作日志 服务层处理
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 @Service
-public class SysOperLogServiceImpl implements ISysOperLogService
+public class SysOperLogServiceImpl extends ServiceImpl<SysOperLogMapper, SysOperLog> implements ISysOperLogService
 {
-    @Autowired
-    private SysOperLogMapper operLogMapper;
-
-    /**
-     * 新增操作日志
-     * 
-     * @param operLog 操作日志对象
-     */
-    @Override
-    public void insertOperlog(SysOperLog operLog)
-    {
-        operLogMapper.insertOperlog(operLog);
-    }
-
     /**
      * 查询系统操作日志集合
-     * 
+     *
      * @param operLog 操作日志对象
      * @return 操作日志集合
      */
     @Override
     public List<SysOperLog> selectOperLogList(SysOperLog operLog)
     {
-        return operLogMapper.selectOperLogList(operLog);
-    }
+        QueryWrapper<SysOperLog> queryWrapper = new QueryWrapper<>();
 
-    /**
-     * 批量删除系统操作日志
-     * 
-     * @param operIds 需要删除的操作日志ID
-     * @return 结果
-     */
-    @Override
-    public int deleteOperLogByIds(Long[] operIds)
-    {
-        return operLogMapper.deleteOperLogByIds(operIds);
-    }
+        // 动态条件查询
+        if (StringUtils.isNotEmpty(operLog.getOperIp())) {
+            queryWrapper.like("oper_ip", operLog.getOperIp());
+        }
+        if (StringUtils.isNotEmpty(operLog.getTitle())) {
+            queryWrapper.like("title", operLog.getTitle());
+        }
+        if (operLog.getBusinessType() != null) {
+            queryWrapper.eq("business_type", operLog.getBusinessType());
+        }
+        if (operLog.getStatus() != null) {
+            queryWrapper.eq("status", operLog.getStatus());
+        }
+        if (StringUtils.isNotEmpty(operLog.getOperName())) {
+            queryWrapper.like("oper_name", operLog.getOperName());
+        }
+        if (operLog.getBusinessTypes() != null && operLog.getBusinessTypes().length > 0) {
+            queryWrapper.in("business_type", (Object[]) operLog.getBusinessTypes());
+        }
 
-    /**
-     * 查询操作日志详细
-     * 
-     * @param operId 操作ID
-     * @return 操作日志对象
-     */
-    @Override
-    public SysOperLog selectOperLogById(Long operId)
-    {
-        return operLogMapper.selectOperLogById(operId);
+        // 时间范围查询
+        QueryWrapperUtils.between(queryWrapper, "oper_time", operLog.getParams());
+
+        // 排序
+        queryWrapper.orderByDesc("oper_id");
+
+        return this.list(queryWrapper);
     }
 
     /**
@@ -71,6 +65,6 @@ public class SysOperLogServiceImpl implements ISysOperLogService
     @Override
     public void cleanOperLog()
     {
-        operLogMapper.cleanOperLog();
+        baseMapper.cleanOperLog();
     }
 }

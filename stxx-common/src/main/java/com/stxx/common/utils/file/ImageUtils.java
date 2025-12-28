@@ -16,7 +16,7 @@ import com.stxx.common.utils.StringUtils;
 /**
  * 图片处理工具类
  *
- * @author ruoyi
+ * @author wangcc
  */
 public class ImageUtils
 {

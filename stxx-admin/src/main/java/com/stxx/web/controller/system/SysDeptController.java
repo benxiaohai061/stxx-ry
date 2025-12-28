@@ -27,7 +27,7 @@ import com.stxx.system.service.ISysDeptService;
 /**
  * 部门信息
  *
- * @author ruoyi
+ * @author wangcc
  */
 @RequiredArgsConstructor
 @RestController

@@ -2,8 +2,8 @@ package com.stxx.common.exception.user;
 
 /**
  * 验证码错误异常类
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class CaptchaException extends UserException
 {

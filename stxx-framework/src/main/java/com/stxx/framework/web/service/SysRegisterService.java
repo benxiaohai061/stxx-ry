@@ -1,6 +1,6 @@
 package com.stxx.framework.web.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import com.stxx.common.constant.CacheConstants;
 import com.stxx.common.constant.Constants;
@@ -21,20 +21,18 @@ import com.stxx.system.service.ISysUserService;
 
 /**
  * 注册校验方法
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @Component
 public class SysRegisterService
 {
-    @Autowired
-    private ISysUserService userService;
+    private final ISysUserService userService;
 
-    @Autowired
-    private ISysConfigService configService;
+    private final ISysConfigService configService;
 
-    @Autowired
-    private RedisCache redisCache;
+    private final RedisCache redisCache;
 
     /**
      * 注册

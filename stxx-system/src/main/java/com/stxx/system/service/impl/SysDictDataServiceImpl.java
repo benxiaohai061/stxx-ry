@@ -10,11 +10,12 @@ import com.stxx.common.core.domain.entity.SysDictData;
 import com.stxx.common.utils.DictUtils;
 import com.stxx.system.mapper.SysDictDataMapper;
 import com.stxx.system.service.ISysDictDataService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 字典 业务层处理
  *
- * @author ruoyi
+ * @author wangcc
  */
 @Service
 public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDictData> implements ISysDictDataService {
@@ -78,18 +79,6 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
     }
 
     /**
-     * 查询字典数据（所有状态，用于缓存加载）
-     *
-     * @param dictData 字典数据信息
-     * @return 字典数据集合信息
-     */
-    public List<SysDictData> selectDictDataListForCache(SysDictData dictData) {
-        QueryWrapper<SysDictData> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(dictData.getStatus() != null && !dictData.getStatus().isEmpty(), "status", dictData.getStatus());
-        return this.list(queryWrapper);
-    }
-
-    /**
      * 查询字典数据
      *
      * @param dictType 字典类型
@@ -121,6 +110,7 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
      *
      * @param dictCodes 需要删除的字典数据ID
      */
+    @Transactional
     @Override
     public void deleteDictDataByIds(Long[] dictCodes) {
         // 批量删除前先获取所有要删除的数据，用于更新缓存

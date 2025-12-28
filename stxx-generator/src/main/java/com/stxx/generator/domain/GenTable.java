@@ -3,21 +3,30 @@ package com.stxx.generator.domain;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.ArrayUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.stxx.common.constant.GenConstants;
 import com.stxx.common.core.domain.BaseEntity;
 import com.stxx.common.utils.StringUtils;
 
 /**
  * 业务表 gen_table
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@TableName("gen_table")
 public class GenTable extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 编号 */
+    @TableId(type = IdType.AUTO)
     private Long tableId;
 
     /** 表名称 */

@@ -2,8 +2,8 @@ package com.stxx.common.core.domain.model;
 
 /**
  * 用户登录对象
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class LoginBody
 {

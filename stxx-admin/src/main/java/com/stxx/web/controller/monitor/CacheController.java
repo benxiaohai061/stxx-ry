@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,15 +26,15 @@ import com.stxx.system.domain.SysCache;
 
 /**
  * 缓存监控
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/monitor/cache")
 public class CacheController
 {
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
 
     private final static List<SysCache> caches = new ArrayList<SysCache>();
     {

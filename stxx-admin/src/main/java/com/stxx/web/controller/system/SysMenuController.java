@@ -1,6 +1,8 @@
 package com.stxx.web.controller.system;
 
 import java.util.List;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -23,15 +25,15 @@ import com.stxx.system.service.ISysMenuService;
 
 /**
  * 菜单信息
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/system/menu")
 public class SysMenuController extends BaseController
 {
-    @Autowired
-    private ISysMenuService menuService;
+    private final ISysMenuService menuService;
 
     /**
      * 获取菜单列表
@@ -51,7 +53,7 @@ public class SysMenuController extends BaseController
     @GetMapping(value = "/{menuId}")
     public AjaxResult getInfo(@PathVariable Long menuId)
     {
-        return success(menuService.selectMenuById(menuId));
+        return success(menuService.getById(menuId));
     }
 
     /**

@@ -1,22 +1,34 @@
 package com.stxx.system.domain;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stxx.common.annotation.Excel;
 import com.stxx.common.annotation.Excel.ColumnType;
-import com.stxx.common.core.domain.BaseEntity;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 系统访问记录表 sys_logininfor
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
-public class SysLogininfor extends BaseEntity
+@Data
+@TableName("sys_logininfor")
+public class SysLogininfor implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
     @Excel(name = "序号", cellType = ColumnType.NUMERIC)
+    @TableId(type = IdType.AUTO)
     private Long infoId;
 
     /** 用户账号 */
@@ -52,93 +64,17 @@ public class SysLogininfor extends BaseEntity
     @Excel(name = "访问时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date loginTime;
 
-    public Long getInfoId()
-    {
-        return infoId;
-    }
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @TableField(exist = false)
+    private Map<String, Object> params;
 
-    public void setInfoId(Long infoId)
-    {
-        this.infoId = infoId;
-    }
 
-    public String getUserName()
+    public Map<String, Object> getParams()
     {
-        return userName;
-    }
-
-    public void setUserName(String userName)
-    {
-        this.userName = userName;
-    }
-
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(String status)
-    {
-        this.status = status;
-    }
-
-    public String getIpaddr()
-    {
-        return ipaddr;
-    }
-
-    public void setIpaddr(String ipaddr)
-    {
-        this.ipaddr = ipaddr;
-    }
-
-    public String getLoginLocation()
-    {
-        return loginLocation;
-    }
-
-    public void setLoginLocation(String loginLocation)
-    {
-        this.loginLocation = loginLocation;
-    }
-
-    public String getBrowser()
-    {
-        return browser;
-    }
-
-    public void setBrowser(String browser)
-    {
-        this.browser = browser;
-    }
-
-    public String getOs()
-    {
-        return os;
-    }
-
-    public void setOs(String os)
-    {
-        this.os = os;
-    }
-
-    public String getMsg()
-    {
-        return msg;
-    }
-
-    public void setMsg(String msg)
-    {
-        this.msg = msg;
-    }
-
-    public Date getLoginTime()
-    {
-        return loginTime;
-    }
-
-    public void setLoginTime(Date loginTime)
-    {
-        this.loginTime = loginTime;
+        if (params == null)
+        {
+            params = new HashMap<>();
+        }
+        return params;
     }
 }

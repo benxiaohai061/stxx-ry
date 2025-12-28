@@ -7,7 +7,7 @@ import com.stxx.common.utils.ServletUtils;
 /**
  * 服务相关配置
  * 
- * @author ruoyi
+ * @author wangcc
  */
 @Component
 public class ServerConfig

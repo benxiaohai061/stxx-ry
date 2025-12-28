@@ -12,7 +12,7 @@ import com.stxx.common.utils.StringUtils;
 /**
  * 类型转换器
  *
- * @author ruoyi
+ * @author wangcc
  */
 public class Convert
 {

@@ -18,7 +18,7 @@ import com.stxx.common.core.domain.BaseEntity;
 /**
  * 参数配置表 sys_config
  *
- * @author ruoyi
+ * @author wangcc
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -1,6 +1,7 @@
 package com.stxx.framework.aspectj;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,8 +36,8 @@ import com.stxx.system.domain.SysOperLog;
 
 /**
  * 操作日志记录处理
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 @Aspect
 @Component
@@ -75,7 +76,7 @@ public class LogAspect
 
     /**
      * 拦截异常操作
-     * 
+     *
      * @param joinPoint 切点
      * @param e 异常
      */
@@ -122,8 +123,10 @@ public class LogAspect
             operLog.setRequestMethod(ServletUtils.getRequest().getMethod());
             // 处理设置注解上的参数
             getControllerMethodDescription(joinPoint, controllerLog, operLog, jsonResult);
+            Long startTime = TIME_THREADLOCAL.get();
+            operLog.setOperTime(new Date(startTime));
             // 设置消耗时间
-            operLog.setCostTime(System.currentTimeMillis() - TIME_THREADLOCAL.get());
+            operLog.setCostTime(System.currentTimeMillis() - startTime);
             // 保存数据库
             AsyncManager.me().execute(AsyncFactory.recordOper(operLog));
         }
@@ -141,7 +144,7 @@ public class LogAspect
 
     /**
      * 获取注解中对方法的描述信息 用于Controller层注解
-     * 
+     *
      * @param log 日志
      * @param operLog 操作日志
      * @throws Exception
@@ -169,7 +172,7 @@ public class LogAspect
 
     /**
      * 获取请求的参数，放到log中
-     * 
+     *
      * @param operLog 操作日志
      * @throws Exception 异常
      */
@@ -229,7 +232,7 @@ public class LogAspect
 
     /**
      * 判断是否需要过滤的对象。
-     * 
+     *
      * @param o 对象信息。
      * @return 如果是需要过滤的对象，则返回true；否则返回false。
      */

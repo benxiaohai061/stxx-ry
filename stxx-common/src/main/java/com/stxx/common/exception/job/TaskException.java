@@ -2,8 +2,8 @@ package com.stxx.common.exception.job;
 
 /**
  * 计划策略异常
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class TaskException extends Exception
 {

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * 公告 服务层实现
  *
- * @author ruoyi
+ * @author wangcc
  */
 @Service
 public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice> implements ISysNoticeService {

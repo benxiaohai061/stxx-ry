@@ -17,7 +17,7 @@ import com.stxx.common.utils.StringUtils;
 /**
  * Filter配置
  *
- * @author ruoyi
+ * @author wangcc
  */
 @Configuration
 public class FilterConfig

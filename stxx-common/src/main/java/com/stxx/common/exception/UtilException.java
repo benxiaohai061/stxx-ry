@@ -2,8 +2,8 @@ package com.stxx.common.exception;
 
 /**
  * 工具类异常
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class UtilException extends RuntimeException
 {

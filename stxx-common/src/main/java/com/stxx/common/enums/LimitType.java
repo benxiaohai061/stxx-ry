@@ -3,7 +3,7 @@ package com.stxx.common.enums;
 /**
  * 限流类型
  *
- * @author ruoyi
+ * @author wangcc
  */
 
 public enum LimitType

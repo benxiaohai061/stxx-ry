@@ -27,7 +27,7 @@ import com.stxx.system.service.ISysPostService;
 /**
  * 岗位信息操作处理
  *
- * @author ruoyi
+ * @author wangcc
  */
 @RequiredArgsConstructor
 @RestController
@@ -65,7 +65,7 @@ public class SysPostController extends BaseController
     @GetMapping(value = "/{postId}")
     public AjaxResult getInfo(@PathVariable Long postId)
     {
-        return success(postService.selectPostById(postId));
+        return success(postService.getById(postId));
     }
 
     /**
@@ -85,7 +85,7 @@ public class SysPostController extends BaseController
             return error("新增岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
         post.setCreateBy(getUsername());
-        return toAjax(postService.insertPost(post));
+        return toAjax(postService.save(post));
     }
 
     /**
@@ -105,7 +105,7 @@ public class SysPostController extends BaseController
             return error("修改岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
         post.setUpdateBy(getUsername());
-        return toAjax(postService.updatePost(post));
+        return toAjax(postService.updateById(post));
     }
 
     /**
@@ -125,7 +125,7 @@ public class SysPostController extends BaseController
     @GetMapping("/optionselect")
     public AjaxResult optionselect()
     {
-        List<SysPost> posts = postService.selectPostAll();
+        List<SysPost> posts = postService.list();
         return success(posts);
     }
 }

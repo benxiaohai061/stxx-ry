@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 部门表 sys_dept
  *
- * @author ruoyi
+ * @author wangcc
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

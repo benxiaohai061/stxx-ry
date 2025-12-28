@@ -3,7 +3,7 @@ package com.stxx.framework.web.service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import com.stxx.common.constant.Constants;
@@ -16,21 +16,20 @@ import com.stxx.system.service.ISysRoleService;
 
 /**
  * 用户权限处理
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @Component
 public class SysPermissionService
 {
-    @Autowired
-    private ISysRoleService roleService;
+    private final ISysRoleService roleService;
 
-    @Autowired
-    private ISysMenuService menuService;
+    private final ISysMenuService menuService;
 
     /**
      * 获取角色数据权限
-     * 
+     *
      * @param user 用户信息
      * @return 角色权限信息
      */
@@ -51,7 +50,7 @@ public class SysPermissionService
 
     /**
      * 获取菜单数据权限
-     * 
+     *
      * @param user 用户信息
      * @return 菜单权限信息
      */

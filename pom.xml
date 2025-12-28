@@ -36,6 +36,7 @@
         <logback.version>1.2.13</logback.version>
         <spring-security.version>5.7.14</spring-security.version>
         <spring-framework.version>5.3.39</spring-framework.version>
+        <hutool.version>5.8.38</hutool.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -66,6 +67,15 @@
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool.version}</version>
+                <type>pom</type>
+                <!-- 注意这里是import -->
                 <scope>import</scope>
             </dependency>
 

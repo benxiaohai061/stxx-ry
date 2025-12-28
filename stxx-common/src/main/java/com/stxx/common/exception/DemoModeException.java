@@ -2,8 +2,8 @@ package com.stxx.common.exception;
 
 /**
  * 演示模式异常
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class DemoModeException extends RuntimeException
 {

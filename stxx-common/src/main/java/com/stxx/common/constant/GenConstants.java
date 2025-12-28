@@ -2,8 +2,8 @@ package com.stxx.common.constant;
 
 /**
  * 代码生成通用常量
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
 public class GenConstants
 {

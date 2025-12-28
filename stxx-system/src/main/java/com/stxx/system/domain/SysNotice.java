@@ -15,7 +15,7 @@ import com.stxx.common.xss.Xss;
 /**
  * 通知公告表 sys_notice
  *
- * @author ruoyi
+ * @author wangcc
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

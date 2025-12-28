@@ -3,7 +3,7 @@ package com.stxx.common.constant;
 /**
  * 用户常量信息
  * 
- * @author ruoyi
+ * @author wangcc
  */
 public class UserConstants
 {

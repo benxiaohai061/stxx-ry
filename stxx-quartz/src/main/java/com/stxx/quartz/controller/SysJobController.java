@@ -2,6 +2,8 @@ package com.stxx.quartz.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.RequiredArgsConstructor;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,15 +31,15 @@ import com.stxx.quartz.util.ScheduleUtils;
 
 /**
  * 调度任务信息操作处理
- * 
- * @author ruoyi
+ *
+ * @author wangcc
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/monitor/job")
 public class SysJobController extends BaseController
 {
-    @Autowired
-    private ISysJobService jobService;
+    private final ISysJobService jobService;
 
     /**
      * 查询定时任务列表
