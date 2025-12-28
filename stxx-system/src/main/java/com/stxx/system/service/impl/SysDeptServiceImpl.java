@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.stxx.system.mapper.SysRoleMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -19,8 +22,8 @@ import com.stxx.common.exception.ServiceException;
 import com.stxx.common.utils.SecurityUtils;
 import com.stxx.common.utils.StringUtils;
 import com.stxx.common.utils.spring.SpringUtils;
+import com.stxx.system.service.ISysRoleService;
 import com.stxx.system.mapper.SysDeptMapper;
-import com.stxx.system.mapper.SysRoleMapper;
 import com.stxx.system.service.ISysDeptService;
 
 /**
@@ -28,15 +31,11 @@ import com.stxx.system.service.ISysDeptService;
  *
  * @author ruoyi
  */
+@RequiredArgsConstructor
 @Service
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements ISysDeptService {
 
-    private final SysRoleMapper roleMapper;
-
-    public SysDeptServiceImpl(SysRoleMapper roleMapper) {
-        this.roleMapper = roleMapper;
-    }
-
+    private final SysRoleMapper sysRoleMapper;
     /**
      * 查询部门管理数据
      *
@@ -111,7 +110,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public List<Long> selectDeptListByRoleId(Long roleId)
     {
-        SysRole role = roleMapper.selectRoleById(roleId);
+        SysRole role = sysRoleMapper.selectById(roleId);
         return baseMapper.selectDeptListByRoleId(roleId, role.isDeptCheckStrictly());
     }
 
