@@ -1,6 +1,8 @@
 package com.stxx.web.controller.system;
 
 import java.util.List;
+
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,15 +26,15 @@ import com.stxx.system.service.ISysDeptService;
 
 /**
  * 部门信息
- * 
+ *
  * @author ruoyi
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/system/dept")
 public class SysDeptController extends BaseController
 {
-    @Autowired
-    private ISysDeptService deptService;
+    private final ISysDeptService deptService;
 
     /**
      * 获取部门列表

@@ -1,11 +1,13 @@
 package com.stxx.system.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stxx.common.annotation.DataScope;
 import com.stxx.common.constant.UserConstants;
 import com.stxx.common.core.domain.TreeSelect;
@@ -23,34 +25,33 @@ import com.stxx.system.service.ISysDeptService;
 
 /**
  * 部门管理 服务实现
- * 
+ *
  * @author ruoyi
  */
 @Service
-public class SysDeptServiceImpl implements ISysDeptService
-{
-    @Autowired
-    private SysDeptMapper deptMapper;
+public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements ISysDeptService {
 
-    @Autowired
-    private SysRoleMapper roleMapper;
+    private final SysRoleMapper roleMapper;
+
+    public SysDeptServiceImpl(SysRoleMapper roleMapper) {
+        this.roleMapper = roleMapper;
+    }
 
     /**
      * 查询部门管理数据
-     * 
+     *
      * @param dept 部门信息
      * @return 部门信息集合
      */
     @Override
     @DataScope(deptAlias = "d")
-    public List<SysDept> selectDeptList(SysDept dept)
-    {
-        return deptMapper.selectDeptList(dept);
+    public List<SysDept> selectDeptList(SysDept dept) {
+        return baseMapper.selectDeptList(dept);
     }
 
     /**
      * 查询部门树结构信息
-     * 
+     *
      * @param dept 部门信息
      * @return 部门树信息集合
      */
@@ -63,7 +64,7 @@ public class SysDeptServiceImpl implements ISysDeptService
 
     /**
      * 构建前端所需要树结构
-     * 
+     *
      * @param depts 部门列表
      * @return 树结构列表
      */
@@ -90,7 +91,7 @@ public class SysDeptServiceImpl implements ISysDeptService
 
     /**
      * 构建前端所需要下拉树结构
-     * 
+     *
      * @param depts 部门列表
      * @return 下拉树结构列表
      */
@@ -103,7 +104,7 @@ public class SysDeptServiceImpl implements ISysDeptService
 
     /**
      * 根据角色ID查询部门树信息
-     * 
+     *
      * @param roleId 角色ID
      * @return 选中部门列表
      */
@@ -111,72 +112,74 @@ public class SysDeptServiceImpl implements ISysDeptService
     public List<Long> selectDeptListByRoleId(Long roleId)
     {
         SysRole role = roleMapper.selectRoleById(roleId);
-        return deptMapper.selectDeptListByRoleId(roleId, role.isDeptCheckStrictly());
+        return baseMapper.selectDeptListByRoleId(roleId, role.isDeptCheckStrictly());
     }
 
     /**
      * 根据部门ID查询信息
-     * 
+     *
      * @param deptId 部门ID
      * @return 部门信息
      */
     @Override
-    public SysDept selectDeptById(Long deptId)
-    {
-        return deptMapper.selectDeptById(deptId);
+    public SysDept selectDeptById(Long deptId) {
+        return this.getById(deptId);
     }
 
     /**
      * 根据ID查询所有子部门（正常状态）
-     * 
+     *
      * @param deptId 部门ID
      * @return 子部门数
      */
     @Override
-    public int selectNormalChildrenDeptById(Long deptId)
-    {
-        return deptMapper.selectNormalChildrenDeptById(deptId);
+    public int selectNormalChildrenDeptById(Long deptId) {
+        QueryWrapper<SysDept> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status", "0")
+                    .like("ancestors", String.valueOf(deptId));
+        return (int) this.count(queryWrapper);
     }
 
     /**
      * 是否存在子节点
-     * 
+     *
      * @param deptId 部门ID
      * @return 结果
      */
     @Override
-    public boolean hasChildByDeptId(Long deptId)
-    {
-        int result = deptMapper.hasChildByDeptId(deptId);
-        return result > 0;
+    public boolean hasChildByDeptId(Long deptId) {
+        QueryWrapper<SysDept> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("parent_id", deptId);
+        return this.count(queryWrapper) > 0;
     }
 
     /**
      * 查询部门是否存在用户
-     * 
+     *
      * @param deptId 部门ID
      * @return 结果 true 存在 false 不存在
      */
     @Override
     public boolean checkDeptExistUser(Long deptId)
     {
-        int result = deptMapper.checkDeptExistUser(deptId);
+        int result = baseMapper.checkDeptExistUser(deptId);
         return result > 0;
     }
 
     /**
      * 校验部门名称是否唯一
-     * 
+     *
      * @param dept 部门信息
      * @return 结果
      */
     @Override
-    public boolean checkDeptNameUnique(SysDept dept)
-    {
-        Long deptId = StringUtils.isNull(dept.getDeptId()) ? -1L : dept.getDeptId();
-        SysDept info = deptMapper.checkDeptNameUnique(dept.getDeptName(), dept.getParentId());
-        if (StringUtils.isNotNull(info) && info.getDeptId().longValue() != deptId.longValue())
-        {
+    public boolean checkDeptNameUnique(SysDept dept) {
+        Long deptId = dept.getDeptId() != null ? dept.getDeptId() : -1L;
+        QueryWrapper<SysDept> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dept_name", dept.getDeptName())
+                    .eq("parent_id", dept.getParentId());
+        SysDept info = this.getOne(queryWrapper);
+        if (info != null && !info.getDeptId().equals(deptId)) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
@@ -184,7 +187,7 @@ public class SysDeptServiceImpl implements ISysDeptService
 
     /**
      * 校验部门是否有数据权限
-     * 
+     *
      * @param deptId 部门id
      */
     @Override
@@ -204,93 +207,89 @@ public class SysDeptServiceImpl implements ISysDeptService
 
     /**
      * 新增保存部门信息
-     * 
+     *
      * @param dept 部门信息
      * @return 结果
      */
     @Override
-    public int insertDept(SysDept dept)
-    {
-        SysDept info = deptMapper.selectDeptById(dept.getParentId());
+    public int insertDept(SysDept dept) {
+        SysDept info = this.getById(dept.getParentId());
         // 如果父节点不为正常状态,则不允许新增子节点
-        if (!UserConstants.DEPT_NORMAL.equals(info.getStatus()))
-        {
+        if (!UserConstants.DEPT_NORMAL.equals(info.getStatus())) {
             throw new ServiceException("部门停用，不允许新增");
         }
         dept.setAncestors(info.getAncestors() + "," + dept.getParentId());
-        return deptMapper.insertDept(dept);
+        return this.save(dept) ? 1 : 0;
     }
 
     /**
      * 修改保存部门信息
-     * 
+     *
      * @param dept 部门信息
      * @return 结果
      */
     @Override
-    public int updateDept(SysDept dept)
-    {
-        SysDept newParentDept = deptMapper.selectDeptById(dept.getParentId());
-        SysDept oldDept = deptMapper.selectDeptById(dept.getDeptId());
-        if (StringUtils.isNotNull(newParentDept) && StringUtils.isNotNull(oldDept))
-        {
+    public int updateDept(SysDept dept) {
+        SysDept newParentDept = this.getById(dept.getParentId());
+        SysDept oldDept = this.getById(dept.getDeptId());
+        if (newParentDept != null && oldDept != null) {
             String newAncestors = newParentDept.getAncestors() + "," + newParentDept.getDeptId();
             String oldAncestors = oldDept.getAncestors();
             dept.setAncestors(newAncestors);
             updateDeptChildren(dept.getDeptId(), newAncestors, oldAncestors);
         }
-        int result = deptMapper.updateDept(dept);
-        if (UserConstants.DEPT_NORMAL.equals(dept.getStatus()) && StringUtils.isNotEmpty(dept.getAncestors())
-                && !StringUtils.equals("0", dept.getAncestors()))
-        {
+        boolean result = this.updateById(dept);
+        if (result && UserConstants.DEPT_NORMAL.equals(dept.getStatus()) &&
+            StringUtils.isNotEmpty(dept.getAncestors()) && !"0".equals(dept.getAncestors())) {
             // 如果该部门是启用状态，则启用该部门的所有上级部门
             updateParentDeptStatusNormal(dept);
         }
-        return result;
+        return result ? 1 : 0;
     }
 
     /**
      * 修改该部门的父级部门状态
-     * 
+     *
      * @param dept 当前部门
      */
-    private void updateParentDeptStatusNormal(SysDept dept)
-    {
+    private void updateParentDeptStatusNormal(SysDept dept) {
         String ancestors = dept.getAncestors();
         Long[] deptIds = Convert.toLongArray(ancestors);
-        deptMapper.updateDeptStatusNormal(deptIds);
+        QueryWrapper<SysDept> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("dept_id", Arrays.asList(deptIds));
+        SysDept updateDept = new SysDept();
+        updateDept.setStatus("0");
+        this.update(updateDept, queryWrapper);
     }
 
     /**
      * 修改子元素关系
-     * 
+     *
      * @param deptId 被修改的部门ID
      * @param newAncestors 新的父ID集合
      * @param oldAncestors 旧的父ID集合
      */
-    public void updateDeptChildren(Long deptId, String newAncestors, String oldAncestors)
-    {
-        List<SysDept> children = deptMapper.selectChildrenDeptById(deptId);
-        for (SysDept child : children)
-        {
+    public void updateDeptChildren(Long deptId, String newAncestors, String oldAncestors) {
+        QueryWrapper<SysDept> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("ancestors", String.valueOf(deptId));
+        List<SysDept> children = this.list(queryWrapper);
+        for (SysDept child : children) {
             child.setAncestors(child.getAncestors().replaceFirst(oldAncestors, newAncestors));
         }
-        if (children.size() > 0)
-        {
-            deptMapper.updateDeptChildren(children);
+        if (!children.isEmpty()) {
+            this.updateBatchById(children);
         }
     }
 
     /**
      * 删除部门管理信息
-     * 
+     *
      * @param deptId 部门ID
      * @return 结果
      */
     @Override
-    public int deleteDeptById(Long deptId)
-    {
-        return deptMapper.deleteDeptById(deptId);
+    public int deleteDeptById(Long deptId) {
+        return this.removeById(deptId) ? 1 : 0;
     }
 
     /**
