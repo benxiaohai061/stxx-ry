@@ -136,7 +136,7 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
+                <version>3.5.2</version>
             </dependency>
 
             <!-- 获取系统信息 -->
