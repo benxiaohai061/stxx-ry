@@ -1,47 +1,27 @@
 # PostgreSQL数据库配置
 spring:
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driverClassName: org.postgresql.Driver
-    druid:
-      master:
-        url: jdbc:postgresql://localhost:5432/ry-vue
-        username: postgres
-        password: password
-      slave:
-        enabled: false
-        url:
-        username:
-        password:
-      initialSize: 5
-      minIdle: 10
-      maxActive: 20
-      maxWait: 60000
-      connectTimeout: 30000
-      socketTimeout: 60000
-      timeBetweenEvictionRunsMillis: 60000
-      minEvictableIdleTimeMillis: 300000
-      maxEvictableIdleTimeMillis: 900000
-      validationQuery: SELECT 1
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-      webStatFilter:
-        enabled: true
-      statViewServlet:
-        enabled: true
-        allow:
-        url-pattern: /druid/*
-        login-username: ruoyi
-        login-password: 123456
-      filter:
-        stat:
-          enabled: true
-          log-slow-sql: true
-          slow-sql-millis: 1000
-          merge-sql: true
-        wall:
-          config:
-            multi-statement-allow: true
+    dynamic:
+      # HikariCP 连接池配置
+      hikari:
+        maximum-pool-size: 20
+        minimum-idle: 5
+        connection-timeout: 30000
+        idle-timeout: 600000
+        max-lifetime: 1800000
+        connection-test-query: SELECT 1
+      datasource:
+          # 主库数据源
+          master:
+            driver-class-name: org.postgresql.Driver
+            url: jdbc:postgresql://49.233.100.141:25432/ry?currentSchema=public
+            username: postgres
+            password: Sxct@wLDs1710
+          # 测试数据源
+#          test:
+#            driver-class-name: org.postgresql.Driver
+#            url: jdbc:postgresql://49.233.100.141:25432/ry_test?currentSchema=public
+#            username: postgres
+#            password: Sxct@wLDs1710
 
 

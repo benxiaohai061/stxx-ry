@@ -29,10 +29,11 @@
             <artifactId>stxx-common</artifactId>
         </dependency>
 
-        <!-- 阿里数据库连接池 -->
+        <!-- Druid SQL解析器 -->
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
+            <artifactId>druid</artifactId>
+            <version>1.2.27</version>
         </dependency>
 
     </dependencies>

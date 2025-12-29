@@ -1,5 +1,6 @@
 package com.stxx.system.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stxx.common.annotation.DataSource;
@@ -49,7 +50,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
      * @return 参数配置信息
      */
     @Override
-    @DataSource(DataSourceType.MASTER)
+    @DS("mater")
     public SysConfig selectConfigById(Long configId)
     {
         return baseMapper.selectById(configId);

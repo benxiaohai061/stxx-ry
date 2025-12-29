@@ -19,7 +19,6 @@
         <java.version>1.8</java.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <spring-boot.version>2.5.15</spring-boot.version>
-        <druid.version>1.2.27</druid.version>
         <yauaa.version>7.32.0</yauaa.version>
         <swagger.version>3.0.0</swagger.version>
         <kaptcha.version>2.3.3</kaptcha.version>
@@ -37,6 +36,7 @@
         <spring-security.version>5.7.14</spring-security.version>
         <spring-framework.version>5.3.39</spring-framework.version>
         <hutool.version>5.8.38</hutool.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -111,12 +111,6 @@
                 <version>${tomcat.version}</version>
             </dependency>
 
-            <!-- 阿里数据库连接池 -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
 
             <!-- 解析客户端操作系统、浏览器等 -->
             <dependency>
@@ -136,7 +130,13 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>3.5.1</version>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
 
             <!-- 获取系统信息 -->

@@ -52,7 +52,7 @@ spring:
     # 国际化资源文件路径
     basename: i18n/messages
   profiles:
-    active: h2
+    active: postgresql
     include:
       - flyway
   # 文件上传
@@ -110,10 +110,8 @@ mybatis-plus:
 
 # PageHelper分页插件
 pagehelper:
-  helperDialect: mysql
   supportMethodsArguments: true
   params: count=countSql
-
 
 # Swagger配置
 swagger:
