@@ -24,9 +24,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.stxx.common.constant.Constants;
+import com.stxx.common.utils.JsonUtils;
 import com.stxx.common.constant.GenConstants;
 import com.stxx.common.core.text.CharsetKit;
 import com.stxx.common.exception.ServiceException;
@@ -128,7 +128,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
     @Transactional
     public void updateGenTable(GenTable genTable)
     {
-        String options = JSON.toJSONString(genTable.getParams());
+        String options = JsonUtils.toJsonString(genTable.getParams());
         genTable.setOptions(options);
         boolean success = this.updateById(genTable);
         if (success)
@@ -415,17 +415,21 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
     {
         if (GenConstants.TPL_TREE.equals(genTable.getTplCategory()))
         {
-            String options = JSON.toJSONString(genTable.getParams());
-            JSONObject paramsObj = JSON.parseObject(options);
-            if (StringUtils.isEmpty(paramsObj.getString(GenConstants.TREE_CODE)))
+            String options = JsonUtils.toJsonString(genTable.getParams());
+            JsonNode paramsObj = JsonUtils.parseJsonNode(options);
+            if (paramsObj == null)
+            {
+                throw new ServiceException("参数格式错误");
+            }
+            if (!paramsObj.has(GenConstants.TREE_CODE) || StringUtils.isEmpty(paramsObj.get(GenConstants.TREE_CODE).asText()))
             {
                 throw new ServiceException("树编码字段不能为空");
             }
-            else if (StringUtils.isEmpty(paramsObj.getString(GenConstants.TREE_PARENT_CODE)))
+            else if (!paramsObj.has(GenConstants.TREE_PARENT_CODE) || StringUtils.isEmpty(paramsObj.get(GenConstants.TREE_PARENT_CODE).asText()))
             {
                 throw new ServiceException("树父编码字段不能为空");
             }
-            else if (StringUtils.isEmpty(paramsObj.getString(GenConstants.TREE_NAME)))
+            else if (!paramsObj.has(GenConstants.TREE_NAME) || StringUtils.isEmpty(paramsObj.get(GenConstants.TREE_NAME).asText()))
             {
                 throw new ServiceException("树名称字段不能为空");
             }
@@ -500,14 +504,18 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
      */
     public void setTableFromOptions(GenTable genTable)
     {
-        JSONObject paramsObj = JSON.parseObject(genTable.getOptions());
+        JsonNode paramsObj = null;
+        if (StringUtils.isNotEmpty(genTable.getOptions()))
+        {
+            paramsObj = JsonUtils.parseJsonNode(genTable.getOptions());
+        }
         if (StringUtils.isNotNull(paramsObj))
         {
-            String treeCode = paramsObj.getString(GenConstants.TREE_CODE);
-            String treeParentCode = paramsObj.getString(GenConstants.TREE_PARENT_CODE);
-            String treeName = paramsObj.getString(GenConstants.TREE_NAME);
-            Long parentMenuId = paramsObj.getLongValue(GenConstants.PARENT_MENU_ID);
-            String parentMenuName = paramsObj.getString(GenConstants.PARENT_MENU_NAME);
+            String treeCode = paramsObj.has(GenConstants.TREE_CODE) ? paramsObj.get(GenConstants.TREE_CODE).asText() : null;
+            String treeParentCode = paramsObj.has(GenConstants.TREE_PARENT_CODE) ? paramsObj.get(GenConstants.TREE_PARENT_CODE).asText() : null;
+            String treeName = paramsObj.has(GenConstants.TREE_NAME) ? paramsObj.get(GenConstants.TREE_NAME).asText() : null;
+            Long parentMenuId = paramsObj.has(GenConstants.PARENT_MENU_ID) ? paramsObj.get(GenConstants.PARENT_MENU_ID).asLong() : null;
+            String parentMenuName = paramsObj.has(GenConstants.PARENT_MENU_NAME) ? paramsObj.get(GenConstants.PARENT_MENU_NAME).asText() : null;
 
             genTable.setTreeCode(treeCode);
             genTable.setTreeParentCode(treeParentCode);

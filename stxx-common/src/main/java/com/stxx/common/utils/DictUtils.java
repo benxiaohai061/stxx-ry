@@ -1,14 +1,14 @@
 package com.stxx.common.utils;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import com.alibaba.fastjson2.JSONArray;
 import com.stxx.common.constant.CacheConstants;
 import com.stxx.common.core.domain.entity.SysDictData;
 import com.stxx.common.core.redis.RedisCache;
 import com.stxx.common.utils.spring.SpringUtils;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 字典工具类
@@ -41,12 +41,7 @@ public class DictUtils
      */
     public static List<SysDictData> getDictCache(String key)
     {
-        JSONArray arrayCache = SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
-        if (StringUtils.isNotNull(arrayCache))
-        {
-            return arrayCache.toList(SysDictData.class);
-        }
-        return null;
+        return SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
     }
 
     /**

@@ -2,6 +2,8 @@ package com.stxx.common.core.domain.entity;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -68,6 +70,7 @@ public class SysDictData extends BaseEntity
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
     private String status;
 
+    @JsonIgnore
     public boolean getDefault()
     {
         return UserConstants.YES.equals(this.isDefault);

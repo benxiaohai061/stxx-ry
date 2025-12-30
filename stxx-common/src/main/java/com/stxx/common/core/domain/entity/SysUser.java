@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.stxx.common.annotation.Excel;
@@ -102,6 +103,7 @@ public class SysUser extends BaseEntity
     @TableField(exist = false)
     private Long roleId;
 
+    @JsonIgnore
     public boolean isAdmin()
     {
         return isAdmin(this.userId);

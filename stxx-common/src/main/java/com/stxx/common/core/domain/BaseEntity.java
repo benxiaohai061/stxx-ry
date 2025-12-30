@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +34,7 @@ public class BaseEntity implements Serializable
     /** 创建时间 */
     @TableField(fill = FieldFill.INSERT)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /** 更新者 */
     @TableField(fill = FieldFill.UPDATE)
@@ -44,7 +43,7 @@ public class BaseEntity implements Serializable
     /** 更新时间 */
     @TableField(fill = FieldFill.UPDATE)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
     /** 备注 */
     private String remark;

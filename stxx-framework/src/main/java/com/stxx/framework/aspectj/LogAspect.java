@@ -17,8 +17,8 @@ import org.springframework.core.NamedThreadLocal;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
-import com.alibaba.fastjson2.JSON;
 import com.stxx.common.annotation.Log;
+import com.stxx.common.utils.JsonUtils;
 import com.stxx.common.core.domain.entity.SysUser;
 import com.stxx.common.core.domain.model.LoginUser;
 import com.stxx.common.core.text.Convert;
@@ -166,7 +166,7 @@ public class LogAspect
         // 是否需要保存response，参数和值
         if (log.isSaveResponseData() && StringUtils.isNotNull(jsonResult))
         {
-            operLog.setJsonResult(StringUtils.substring(JSON.toJSONString(jsonResult), 0, 2000));
+            operLog.setJsonResult(StringUtils.substring(JsonUtils.toJsonString(jsonResult), 0, 2000));
         }
     }
 
@@ -187,7 +187,7 @@ public class LogAspect
         }
         else
         {
-            operLog.setOperParam(StringUtils.substring(JSON.toJSONString(paramsMap, excludePropertyPreFilter(excludeParamNames)), 0, PARAM_MAX_LENGTH));
+            operLog.setOperParam(StringUtils.substring(filterAndToJson(paramsMap, excludePropertyPreFilter(excludeParamNames)), 0, PARAM_MAX_LENGTH));
         }
     }
 
@@ -205,7 +205,7 @@ public class LogAspect
                 {
                     try
                     {
-                        String jsonObj = JSON.toJSONString(o, excludePropertyPreFilter(excludeParamNames));
+                        String jsonObj = filterAndToJson(o, excludePropertyPreFilter(excludeParamNames));
                         params.append(jsonObj).append(" ");
                         if (params.length() >= PARAM_MAX_LENGTH)
                         {
@@ -228,6 +228,30 @@ public class LogAspect
     public PropertyPreExcludeFilter excludePropertyPreFilter(String[] excludeParamNames)
     {
         return new PropertyPreExcludeFilter().addExcludes(ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames));
+    }
+
+    /**
+     * 过滤敏感属性并序列化为JSON
+     */
+    private String filterAndToJson(Object obj, PropertyPreExcludeFilter filter)
+    {
+        if (obj instanceof Map)
+        {
+            Map<?, ?> map = (Map<?, ?>) obj;
+            Map<Object, Object> filteredMap = new java.util.HashMap<>();
+            for (Map.Entry<?, ?> entry : map.entrySet())
+            {
+                if (!filter.shouldExclude(entry.getKey().toString()))
+                {
+                    filteredMap.put(entry.getKey(), entry.getValue());
+                }
+            }
+            return JsonUtils.toJsonString(filteredMap);
+        }
+        else
+        {
+            return JsonUtils.toJsonString(obj);
+        }
     }
 
     /**

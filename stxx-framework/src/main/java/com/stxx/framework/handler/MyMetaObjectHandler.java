@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Slf4j
 @Component
@@ -19,7 +19,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             createBy = SecurityUtils.getUsername();
         }
         this.strictInsertFill(metaObject, "createBy", String.class, createBy);
-        this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject, "createTime", Date.class, new Date());
     }
 
     @Override
@@ -29,7 +29,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             updateBy = SecurityUtils.getUsername();
         }
         this.strictUpdateFill(metaObject, "updateBy", String.class, updateBy);
-        this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
+        this.strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
     }
 
 }

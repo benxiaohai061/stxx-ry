@@ -1,24 +1,37 @@
 package com.stxx.common.filter;
 
-import com.alibaba.fastjson2.filter.SimplePropertyPreFilter;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * 排除JSON敏感属性
+ * 排除JSON敏感属性 (Jackson兼容版本)
  *
  * @author wangcc
  */
-public class PropertyPreExcludeFilter extends SimplePropertyPreFilter
+public class PropertyPreExcludeFilter
 {
+    private final Set<String> excludes = new HashSet<>();
+
     public PropertyPreExcludeFilter()
     {
     }
 
     public PropertyPreExcludeFilter addExcludes(String... filters)
     {
-        for (int i = 0; i < filters.length; i++)
+        for (String filter : filters)
         {
-            this.getExcludes().add(filters[i]);
+            this.excludes.add(filter);
         }
         return this;
+    }
+
+    public Set<String> getExcludes()
+    {
+        return excludes;
+    }
+
+    public boolean shouldExclude(String propertyName)
+    {
+        return excludes.contains(propertyName);
     }
 }
