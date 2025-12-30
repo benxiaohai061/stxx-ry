@@ -139,12 +139,16 @@ springdoc:
     path: /v3/api-docs
   group-configs:
     - group: tool
+      display-name: 工具测试
       packages-to-scan:
         - com.stxx.web.controller.tool
     - group: system
+      display-name: 系统管理
       packages-to-scan:
         - com.stxx.web.controller.system
 
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true
+  # 开启生产环境屏蔽
+  #production: true
