@@ -113,13 +113,6 @@ pagehelper:
   supportMethodsArguments: true
   params: count=countSql
 
-# Swagger配置
-swagger:
-  # 是否开启swagger
-  enabled: true
-  # 请求前缀
-  pathMapping: /dev-api
-
 # 防盗链配置
 referer:
   # 防盗链开关
@@ -135,3 +128,23 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: tool
+      packages-to-scan:
+        - com.stxx.web.controller.tool
+    - group: system
+      packages-to-scan:
+        - com.stxx.web.controller.system
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
