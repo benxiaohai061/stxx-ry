@@ -1,95 +1,310 @@
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">STXX-RY 企业级快速开发平台</h1>
+<h4 align="center">基于 RuoYi 深度优化 | 支持多数据库 | MyBatis-Plus | SpringDoc | Flyway</h4>
+
 <p align="center">
-	<img alt="logo" src="https://oscimg.oschina.net/oscnet/up-d3d0a9303e11d522a06cd263f3079027715.png">
-</p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi v3.9.1</h1>
-<h4 align="center">基于SpringBoot+Vue前后端分离的Java快速开发框架</h4>
-<p align="center">
-	<a href="https://gitee.com/y_project/RuoYi-Vue/stargazers"><img src="https://gitee.com/y_project/RuoYi-Vue/badge/star.svg?theme=dark"></a>
-	<a href="https://gitee.com/y_project/RuoYi-Vue"><img src="https://img.shields.io/badge/RuoYi-v3.9.1-brightgreen.svg"></a>
-	<a href="https://gitee.com/y_project/RuoYi-Vue/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
+	<img src="https://img.shields.io/badge/Spring%20Boot-2.5.15-brightgreen.svg" alt="Spring Boot">
+	<img src="https://img.shields.io/badge/MyBatis--Plus-3.5.2-blue.svg" alt="MyBatis-Plus">
+	<img src="https://img.shields.io/badge/Vue-2.6.12-green.svg" alt="Vue">
+	<img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+	<img src="https://img.shields.io/badge/JDK-1.8+-orange.svg" alt="JDK">
 </p>
 
-## 平台简介
+## 📖 项目简介
 
-若依是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
+STXX-RY 是基于若依（RuoYi-Vue）v3.9.1 进行深度改造和优化的企业级快速开发平台，专注于提升开发效率和系统性能。本项目在保留若依核心功能的基础上，集成了当前主流的技术栈和最佳实践。
 
-* 前端采用Vue、Element UI。
-* 后端采用Spring Boot、Spring Security、Redis & Jwt。
-* 权限认证使用Jwt，支持多终端认证系统。
-* 支持加载动态权限菜单，多方式轻松权限控制。
-* 高效率开发，使用代码生成器可以一键生成前后端代码。
-* 提供了技术栈（[Vue3](https://v3.cn.vuejs.org) [Element Plus](https://element-plus.org/zh-CN) [Vite](https://cn.vitejs.dev)）版本[RuoYi-Vue3](https://gitcode.com/yangzongzhuan/RuoYi-Vue3)，保持同步更新。
-* 提供了单应用版本[RuoYi-Vue-fast](https://gitcode.com/yangzongzhuan/RuoYi-Vue-fast)，Oracle版本[RuoYi-Vue-Oracle](https://gitcode.com/yangzongzhuan/RuoYi-Vue-Oracle)，保持同步更新。
-* 不分离版本，请移步[RuoYi](https://gitee.com/y_project/RuoYi)，微服务版本，请移步[RuoYi-Cloud](https://gitee.com/y_project/RuoYi-Cloud)
-* 阿里云折扣场：[点我进入](http://aly.ruoyi.vip)，腾讯云秒杀场：[点我进入](http://txy.ruoyi.vip)&nbsp;&nbsp;
+**适用场景：** 企业管理系统、后台管理平台、SaaS 应用、微服务基础框架
 
-## 内置功能
+## ✨ 核心优化特性
 
-1.  用户管理：用户是系统操作者，该功能主要完成系统用户配置。
-2.  部门管理：配置系统组织机构（公司、部门、小组），树结构展现支持数据权限。
-3.  岗位管理：配置系统用户所属担任职务。
-4.  菜单管理：配置系统菜单，操作权限，按钮权限标识等。
-5.  角色管理：角色菜单权限分配、设置角色按机构进行数据范围权限划分。
-6.  字典管理：对系统中经常使用的一些较为固定的数据进行维护。
-7.  参数管理：对系统动态配置常用参数。
-8.  通知公告：系统通知公告信息发布维护。
-9.  操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
-10. 登录日志：系统登录日志记录查询包含登录异常。
-11. 在线用户：当前系统中活跃用户状态监控。
-12. 定时任务：在线（添加、修改、删除)任务调度包含执行结果日志。
-13. 代码生成：前后端代码的生成（java、html、xml、sql）支持CRUD下载 。
-14. 系统接口：根据业务代码自动生成相关的api接口文档。
-15. 服务监控：监视当前系统CPU、内存、磁盘、堆栈等相关信息。
-16. 缓存监控：对系统的缓存信息查询，命令统计等。
-17. 在线构建器：拖动表单元素生成相应的HTML代码。
-18. 连接池监视：监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
+相比原版 RuoYi，本项目进行了以下重要优化：
 
-## 在线体验
+### 🚀 性能优化
+- **Redis 序列化升级**：将 Redis 序列化方式从默认改为 Jackson，提升序列化性能和可读性
+- **MyBatis-Plus 集成**：替换原有单表 SQL 操作，使用 MyBatis-Plus API，减少 80% 的 XML 配置
 
-- admin/admin123  
-- 陆陆续续收到一些打赏，为了更好的体验已用于演示服务器升级。谢谢各位小伙伴。
+### 🔌 多数据源支持
+- **Dynamic-Datasource 集成**：支持动态多数据源切换，满足复杂业务场景
+- **多数据库兼容**：一套代码同时支持 H2、MySQL、PostgreSQL 三种数据库
+- **零配置切换**：通过配置文件即可切换数据库类型，无需修改代码
 
-演示地址：http://vue.ruoyi.vip  
-文档地址：http://doc.ruoyi.vip
+### 📚 API 文档增强
+- **SpringDoc + Knife4j**：集成最新的 OpenAPI 3.0 规范文档工具
+- **交互式文档**：提供美观易用的 Knife4j UI 界面，支持在线调试
 
-## 演示图
+### 🗄️ 数据库版本管理
+- **Flyway 集成**：实现数据库版本控制和自动迁移
+- **多环境支持**：开发、测试、生产环境数据库脚本统一管理
 
-<table>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/cd1f90be5f2684f4560c9519c0f2a232ee8.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/1cbcf0e6f257c7d3a063c0e3f2ff989e4b3.jpg"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-8074972883b5ba0622e13246738ebba237a.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-9f88719cdfca9af2e58b352a20e23d43b12.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-39bf2584ec3a529b0d5a3b70d15c9b37646.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-936ec82d1f4872e1bc980927654b6007307.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-b2d62ceb95d2dd9b3fbe157bb70d26001e9.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-d67451d308b7a79ad6819723396f7c3d77a.png"/></td>
-    </tr>	 
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/5e8c387724954459291aafd5eb52b456f53.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/644e78da53c2e92a95dfda4f76e6d117c4b.jpg"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-8370a0d02977eebf6dbf854c8450293c937.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-49003ed83f60f633e7153609a53a2b644f7.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-d4fe726319ece268d4746602c39cffc0621.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-c195234bbcd30be6927f037a6755e6ab69c.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/b6115bc8c31de52951982e509930b20684a.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-5e4daac0bb59612c5038448acbcef235e3a.png"/></td>
-    </tr>
-</table>
+### 🎯 动态 SQL 功能
+- **动态 MyBatis SQL**：支持运行时动态执行 SQL，满足灵活查询需求
+- **安全可控**：提供权限控制和 SQL 注入防护
 
+## 🛠️ 技术栈
 
-## 若依前后端分离交流群
+### 后端技术
+| 技术 | 版本 | 说明 |
+|------|------|------|
+| Spring Boot | 2.5.15 | 核心框架 |
+| Spring Security | 5.7.14 | 安全框架 |
+| MyBatis-Plus | 3.5.2 | ORM 框架 |
+| Dynamic-Datasource | 3.5.2 | 多数据源 |
+| SpringDoc | 1.7.0 | API 文档 |
+| Knife4j | 4.4.0 | API UI |
+| Flyway | 8.5.13 | 数据库迁移 |
+| Redis | - | 缓存中间件 |
+| JWT | 0.9.1 | 认证令牌 |
+| Hutool | 5.8.38 | 工具类库 |
 
-QQ群： [![加入QQ群](https://img.shields.io/badge/已满-937441-blue.svg)](https://jq.qq.com/?_wv=1027&k=5bVB1og) [![加入QQ群](https://img.shields.io/badge/已满-887144332-blue.svg)](https://jq.qq.com/?_wv=1027&k=5eiA4DH) [![加入QQ群](https://img.shields.io/badge/已满-180251782-blue.svg)](https://jq.qq.com/?_wv=1027&k=5AxMKlC) [![加入QQ群](https://img.shields.io/badge/已满-104180207-blue.svg)](https://jq.qq.com/?_wv=1027&k=51G72yr) [![加入QQ群](https://img.shields.io/badge/已满-186866453-blue.svg)](https://jq.qq.com/?_wv=1027&k=VvjN2nvu) [![加入QQ群](https://img.shields.io/badge/已满-201396349-blue.svg)](https://jq.qq.com/?_wv=1027&k=5vYAqA05) [![加入QQ群](https://img.shields.io/badge/已满-101456076-blue.svg)](https://jq.qq.com/?_wv=1027&k=kOIINEb5) [![加入QQ群](https://img.shields.io/badge/已满-101539465-blue.svg)](https://jq.qq.com/?_wv=1027&k=UKtX5jhs) [![加入QQ群](https://img.shields.io/badge/已满-264312783-blue.svg)](https://jq.qq.com/?_wv=1027&k=EI9an8lJ) [![加入QQ群](https://img.shields.io/badge/已满-167385320-blue.svg)](https://jq.qq.com/?_wv=1027&k=SWCtLnMz) [![加入QQ群](https://img.shields.io/badge/已满-104748341-blue.svg)](https://jq.qq.com/?_wv=1027&k=96Dkdq0k) [![加入QQ群](https://img.shields.io/badge/已满-160110482-blue.svg)](https://jq.qq.com/?_wv=1027&k=0fsNiYZt) [![加入QQ群](https://img.shields.io/badge/已满-170801498-blue.svg)](https://jq.qq.com/?_wv=1027&k=7xw4xUG1) [![加入QQ群](https://img.shields.io/badge/已满-108482800-blue.svg)](https://jq.qq.com/?_wv=1027&k=eCx8eyoJ) [![加入QQ群](https://img.shields.io/badge/已满-101046199-blue.svg)](https://jq.qq.com/?_wv=1027&k=SpyH2875) [![加入QQ群](https://img.shields.io/badge/已满-136919097-blue.svg)](https://jq.qq.com/?_wv=1027&k=tKEt51dz) [![加入QQ群](https://img.shields.io/badge/已满-143961921-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=0vBbSb0ztbBgVtn3kJS-Q4HUNYwip89G&authKey=8irq5PhutrZmWIvsUsklBxhj57l%2F1nOZqjzigkXZVoZE451GG4JHPOqW7AW6cf0T&noverify=0&group_code=143961921) [![加入QQ群](https://img.shields.io/badge/已满-174951577-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=ZFAPAbp09S2ltvwrJzp7wGlbopsc0rwi&authKey=HB2cxpxP2yspk%2Bo3WKTBfktRCccVkU26cgi5B16u0KcAYrVu7sBaE7XSEqmMdFQp&noverify=0&group_code=174951577) [![加入QQ群](https://img.shields.io/badge/已满-161281055-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Fn2aF5IHpwsy8j6VlalNJK6qbwFLFHat&authKey=uyIT%2B97x2AXj3odyXpsSpVaPMC%2Bidw0LxG5MAtEqlrcBcWJUA%2FeS43rsF1Tg7IRJ&noverify=0&group_code=161281055) [![加入QQ群](https://img.shields.io/badge/已满-138988063-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=XIzkm_mV2xTsUtFxo63bmicYoDBA6Ifm&authKey=dDW%2F4qsmw3x9govoZY9w%2FoWAoC4wbHqGal%2BbqLzoS6VBarU8EBptIgPKN%2FviyC8j&noverify=0&group_code=138988063) [![加入QQ群](https://img.shields.io/badge/已满-151450850-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=DkugnCg68PevlycJSKSwjhFqfIgrWWwR&authKey=pR1Pa5lPIeGF%2FFtIk6d%2FGB5qFi0EdvyErtpQXULzo03zbhopBHLWcuqdpwY241R%2F&noverify=0&group_code=151450850) [![加入QQ群](https://img.shields.io/badge/已满-224622315-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=F58bgRa-Dp-rsQJThiJqIYv8t4-lWfXh&authKey=UmUs4CVG5OPA1whvsa4uSespOvyd8%2FAr9olEGaWAfdLmfKQk%2FVBp2YU3u2xXXt76&noverify=0&group_code=224622315) [![加入QQ群](https://img.shields.io/badge/已满-287842588-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Nxb2EQ5qozWa218Wbs7zgBnjLSNk_tVT&authKey=obBKXj6SBKgrFTJZx0AqQnIYbNOvBB2kmgwWvGhzxR67RoRr84%2Bus5OadzMcdJl5&noverify=0&group_code=287842588) [![加入QQ群](https://img.shields.io/badge/已满-187944233-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=numtK1M_I4eVd2Gvg8qtbuL8JgX42qNh&authKey=giV9XWMaFZTY%2FqPlmWbkB9g3fi0Ev5CwEtT9Tgei0oUlFFCQLDp4ozWRiVIzubIm&noverify=0&group_code=187944233) [![加入QQ群](https://img.shields.io/badge/已满-228578329-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=G6r5KGCaa3pqdbUSXNIgYloyb8e0_L0D&authKey=4w8tF1eGW7%2FedWn%2FHAypQksdrML%2BDHolQSx7094Agm7Luakj9EbfPnSTxSi2T1LQ&noverify=0&group_code=228578329) [![加入QQ群](https://img.shields.io/badge/已满-191164766-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=GsOo-OLz53J8y_9TPoO6XXSGNRTgbFxA&authKey=R7Uy%2Feq%2BZsoKNqHvRKhiXpypW7DAogoWapOawUGHokJSBIBIre2%2FoiAZeZBSLuBc&noverify=0&group_code=191164766) [![加入QQ群](https://img.shields.io/badge/174569686-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=PmYavuzsOthVqfdAPbo4uAeIbu7Ttjgc&authKey=p52l8%2FXa4PS1JcEmS3VccKSwOPJUZ1ZfQ69MEKzbrooNUljRtlKjvsXf04bxNp3G&noverify=0&group_code=174569686) 点击按钮入群。
+### 前端技术
+| 技术 | 版本 | 说明 |
+|------|------|------|
+| Vue | 2.6.12 | 前端框架 |
+| Element UI | 2.15.14 | UI 组件库 |
+| Axios | 0.28.1 | HTTP 客户端 |
+| Vuex | 3.6.0 | 状态管理 |
+| Vue Router | 3.4.9 | 路由管理 |
+
+### 数据库支持
+- **MySQL** 5.7+ / 8.0+
+- **PostgreSQL** 12+
+- **H2** 2.1+ (内存数据库，适合开发测试)
+
+## 📦 快速开始
+
+### 环境要求
+- JDK 1.8+
+- Maven 3.6+
+- Node.js 12+
+- Redis 3.0+
+- MySQL 5.7+ / PostgreSQL 12+ / H2 (任选其一)
+
+### 后端启动
+
+```bash
+# 克隆项目
+git clone https://github.com/benxiaohai061/stxx-ry.git
+
+# 进入项目目录
+cd stxx-ry
+
+# 编译打包
+mvn clean install
+
+# 启动项目
+cd stxx-admin
+mvn spring-boot:run
+```
+
+### 前端启动
+
+```bash
+# 进入前端目录
+cd stxx-ui
+
+# 安装依赖
+pnpm install
+
+# 启动开发服务器
+pnpm run dev
+```
+
+### 数据库配置
+
+项目支持三种数据库，在 `application.yml` 中配置：
+
+**使用 MySQL：**
+```yaml
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ry-vue?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+```
+
+**使用 PostgreSQL：**
+```yaml
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/ry-vue
+```
+
+**使用 H2（开发测试）：**
+```yaml
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+```
+
+### 访问地址
+- 前端地址：http://localhost:80
+- 后端接口：http://localhost:8080
+- API 文档：http://localhost:8080/doc.html
+- 默认账号：admin / admin123
+
+## 🎯 核心功能
+
+### 系统管理
+- **用户管理**：系统用户配置、用户信息维护
+- **部门管理**：组织机构管理（公司、部门、小组），树形结构展示，支持数据权限
+- **岗位管理**：用户岗位职务配置
+- **菜单管理**：系统菜单配置、操作权限、按钮权限标识
+- **角色管理**：角色权限分配、数据范围权限划分
+- **字典管理**：系统常用固定数据维护
+- **参数管理**：系统动态参数配置
+
+### 系统监控
+- **在线用户**：实时监控当前活跃用户状态
+- **定时任务**：在线任务调度管理（添加、修改、删除），包含执行结果日志
+- **服务监控**：监控系统 CPU、内存、磁盘、堆栈等信息
+- **缓存监控**：Redis 缓存信息查询、命令统计
+- **连接池监控**：数据库连接池状态监控、SQL 性能分析
+
+### 日志管理
+- **操作日志**：系统操作日志记录和查询
+- **登录日志**：用户登录日志记录，包含登录异常
+
+### 开发工具
+- **代码生成**：一键生成前后端代码（Java、HTML、XML、SQL），支持 CRUD 下载
+- **系统接口**：基于 SpringDoc + Knife4j 的 API 文档，支持在线调试
+- **在线构建器**：拖拽式表单设计器，生成对应 HTML 代码
+- **动态 SQL**：支持运行时动态执行 MyBatis SQL
+
+### 消息通知
+- **通知公告**：系统公告信息发布和维护
+
+## 💡 为什么选择 STXX-RY？
+
+### 对比原版 RuoYi 的优势
+
+| 特性 | 原版 RuoYi | STXX-RY |
+|------|-----------|---------|
+| ORM 框架 | MyBatis | MyBatis-Plus（减少 80% XML） |
+| 数据库支持 | MySQL | MySQL + PostgreSQL + H2 |
+| 多数据源 | ❌ | ✅ Dynamic-Datasource |
+| API 文档 | Swagger 2 | SpringDoc + Knife4j (OpenAPI 3.0) |
+| 数据库迁移 | 手动执行 SQL | Flyway 自动迁移 |
+| Redis 序列化 | JDK 序列化 | Jackson（性能更优） |
+| 动态 SQL | ❌ | ✅ 支持运行时动态执行 |
+
+### 适用人群
+- 需要快速搭建企业管理系统的开发团队
+- 需要支持多数据库的 SaaS 应用开发者
+- 希望使用 MyBatis-Plus 简化开发的 Java 工程师
+- 需要规范化数据库版本管理的项目团队
+
+## 📂 项目结构
+
+```
+stxx-ry
+├── stxx-admin          # 启动模块（主应用入口）
+├── stxx-common         # 通用工具模块
+├── stxx-framework      # 框架核心模块
+├── stxx-generator      # 代码生成模块
+├── stxx-quartz         # 定时任务模块
+├── stxx-system         # 系统管理模块
+├── stxx-ui             # 前端 Vue 项目
+└── sql                 # 数据库脚本（支持 MySQL/PostgreSQL/H2）
+```
+
+## 🔧 配置说明
+
+### MyBatis-Plus 配置
+项目已集成 MyBatis-Plus，所有单表 CRUD 操作无需编写 XML：
+
+```java
+// 继承 BaseMapper 即可使用
+public interface UserMapper extends BaseMapper<User> {
+    // 自动拥有 insert、update、delete、selectById 等方法
+}
+```
+
+### 多数据源配置
+使用 `@DS` 注解切换数据源：
+
+```java
+@Service
+public class UserService {
+    
+    @DS("master")  // 主库
+    public void saveUser(User user) { }
+    
+    @DS("slave")   // 从库
+    public User getUser(Long id) { }
+}
+```
+
+### Flyway 数据库迁移
+数据库脚本放在 `resources/db/migration` 目录：
+```
+db/migration/
+├── V1.0__init_schema.sql
+├── V1.1__add_user_table.sql
+└── V1.2__add_role_table.sql
+```
+
+启动时自动执行未执行的迁移脚本。
+
+## 🚀 部署指南
+
+### Docker 部署
+
+```bash
+# 构建镜像
+docker build -t stxx-ry:latest .
+
+# 运行容器
+docker run -d -p 8080:8080 \
+  -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/ry-vue \
+  -e SPRING_REDIS_HOST=redis \
+  stxx-ry:latest
+```
+
+### JAR 包部署
+
+```bash
+# 打包
+mvn clean package -DskipTests
+
+# 运行
+java -jar stxx-admin/target/stxx-admin.jar \
+  --spring.datasource.url=jdbc:mysql://localhost:3306/ry-vue \
+  --spring.redis.host=localhost
+```
+
+## 📝 开发指南
+
+### API 文档使用
+访问 http://localhost:8080/doc.html 查看完整 API 文档，支持：
+- 在线调试接口
+- 查看请求/响应示例
+- 导出 OpenAPI JSON/YAML
+
+## 🤝 贡献指南
+
+欢迎提交 Issue 和 Pull Request！
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 提交 Pull Request
+
+## 📄 开源协议
+
+本项目基于 [MIT License](LICENSE) 开源协议。
+
+## 🙏 致谢
+
+本项目基于 [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue) 进行改造，感谢若依团队的开源贡献。
+
+## 📮 联系方式
+
+如有问题或建议，欢迎通过以下方式联系：
+- 提交 Issue
+- 发送邮件至：wangccwork@163.com
+
+---
+
+⭐ 如果这个项目对你有帮助，请给个 Star 支持一下！
